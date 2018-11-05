@@ -1,21 +1,22 @@
-<form action="#" class="mt-4" id="newPlace" novalidate="">
+<form class="mt-4" id="newPlace" novalidate="novalidate" (ngSubmit)="addRestaurant()">
     <div class="form-group">
         <label for="name">Name</label>
-        <input type="text" class="form-control" name="name" id="name" placeholder="Enter name">
+        <input type="text" class="form-control" [(ngModel)]="newRest.name" name="name" id="name" placeholder="Enter name">
         <div class="invalid-feedback">Name is required and can only contain letters and spaces.</div>
     </div>
     <div class="form-group">
         <label for="description">Description</label>
-        <textarea class="form-control" id="description" name="description" rows="3" placeholder="Description"></textarea>
+        <textarea class="form-control" id="description" [(ngModel)]="newRest.description" name="description" rows="3" placeholder="Description"></textarea>
         <div class="invalid-feedback">Description is required.</div>
     </div>
     <div class="form-group">
         <label for="cuisine">Cuisine</label>
-        <input type="text" class="form-control" name="cuisine" id="cuisine" placeholder="Cuisine">
+        <input type="text" class="form-control" [(ngModel)]="newRest.cuisine"
+            name="cuisine" id="cuisine" placeholder="Cuisine">
         <div class="invalid-feedback">Cuisine is required.</div>
     </div>
-    <p>Opening days</p>
     
+    <p>Opening days</p>
     <div class="form-group">
         <div class="custom-control custom-control-inline custom-checkbox"
             *ngFor="let day of days; let i = index">
@@ -28,14 +29,17 @@
         </div>
         <div class="text-danger d-none" id="daysError"><small>You must chooose at least 1 day.</small></div>
     </div>
+    
     <div class="form-group">
         <label for="phone">Phone number</label>
-        <input type="text" class="form-control" id="phone" name="phone" placeholder="Phone number">
+        <input type="text" class="form-control" id="phone" [(ngModel)]="newRest.phone"
+            name="phone" placeholder="Phone number">
         <div class="invalid-feedback">Phone is required. 9 numbers (prefix optional).</div>
     </div>
+    
     <div class="form-group">
         <label for="image">Main photo</label>
-        <input type="file" class="form-control" id="image" name="image">
+        <input type="file" class="form-control" id="image" name="image" #fileInput (change)="changeImage(fileInput)">
         <div class="invalid-feedback">An image is required.</div>
     </div>
     <img src="" alt="" id="imgPreview" class="img-thumbnail">
@@ -44,5 +48,28 @@
 </form>
 
 <div class="card-columns">
-
+    <div class="card" *ngFor="let restaurant of restaurants; let i = index;">
+        <img class="card-img-top" [src]="restaurant.image">
+        <div class="card-body">
+            <h5 class="card-title">{{restaurant.name}}</h5>
+            <p class="card-text" [innerText]="restaurant.description"></p>
+            <div class="card-text">
+                <small class="text-muted">
+                    <strong>Opens: </strong>{{getDaysString(restaurant)}}
+                </small>
+                <ng-container [ngSwitch]="restaurant.daysOpen.includes(weekDay)">
+                    <span *ngSwitchCase="true" class="badge badge-success">Open</span>
+                    <span *ngSwitchCase="false" class="badge badge-danger">Closed</span>
+                </ng-container>
+            </div>
+            <div class="card-text">
+                <small class="text-muted">
+                    <strong>Phone: </strong>{{restaurant.phone}}
+                </small>
+            </div>
+        </div>
+        <div class="card-footer">
+            <small class="text-muted">{{restaurant.cuisine}}</small>
+        </div>
+    </div>
 </div>
