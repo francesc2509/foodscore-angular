@@ -59,11 +59,13 @@
         <label for="image">Main photo</label>
         <input #fileInput
             type="file" class="form-control" id="image" name="image"
-            [ngClass]="{'is-invalid': !fileInput.files.length}"
             (change)="changeImage(fileInput)"  required="required">
         <div class="invalid-feedback">An image is required.</div>
     </div>
     <img src="" alt="" id="imgPreview" class="img-thumbnail">
 
-    <button type="submit" class="btn btn-primary" [disabled]="!restaurantForm.valid">Create</button>
+    <button type="submit" class="btn btn-primary"
+        [disabled]="!restaurantForm.valid || !fileInput.files.length">
+        Create
+    </button>
 </form>
