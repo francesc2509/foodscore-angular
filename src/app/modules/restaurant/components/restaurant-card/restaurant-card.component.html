@@ -1,0 +1,30 @@
+<div class="card">
+    <img class="card-img-top" [src]="restaurant.image" [routerLink]="['/restaurant-details', restaurant.id]">
+    <div class="card-body">
+        <h5 class="card-title"
+            [routerLink]="['details', restaurant.id]">
+                {{restaurant.name}}
+        </h5>
+        <p class="card-text" [innerText]="restaurant.description"></p>
+        <div class="card-text">
+            <small class="text-muted">
+                <strong>Opens: </strong>{{getDaysString(restaurant)}}
+            </small>
+            <ng-container [ngSwitch]="open">
+                <span *ngSwitchCase="true" class="badge badge-success">Open</span>
+                <span *ngSwitchCase="false" class="badge badge-danger">Closed</span>
+            </ng-container>
+        </div>
+        <div class="card-text">
+            <small class="text-muted">
+                <strong>Phone: </strong>{{restaurant.phone}}
+            </small>
+        </div>
+        <button *ngIf="restaurant.mine"
+            (click)="deleteRestaurant()"
+            class="mt-2 btn btn-sm btn-danger btn-delete">Delete</button>
+    </div>
+    <div class="card-footer">
+        <small class="text-muted">{{restaurant.cuisine}}</small>
+    </div>
+</div>

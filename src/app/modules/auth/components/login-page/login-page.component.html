@@ -1,0 +1,18 @@
+<form action="#" id="form-login" class="mt-4" method="POST" role="form" (ngSubmit)="login($event)">
+    <legend>Welcome to FoodScore!</legend>
+
+    <div class="form-group">
+        <label for="correo">Email:</label>
+        <input type="email"
+            class="form-control" name="email" id="email" placeholder="Email"
+            [(ngModel)]="user.email">
+        <label for="password">Password:</label>
+        <input type="password"
+            class="form-control" name="password" id="password"
+            placeholder="Password"
+            [(ngModel)]="user.password">
+    </div>
+    <p *ngIf="error" class="text-danger" id="errorInfo">{{error}}</p>
+    <!-- <a class="btn btn-secondary" [routerLink]="">Create account</a> -->
+    <button type="submit" class="btn btn-primary">Login</button>
+</form>

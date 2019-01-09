@@ -1,1 +1,2 @@
-export { Restaurant } from './restaurant.model';
+export * from './auth';
+export * from './user.model';

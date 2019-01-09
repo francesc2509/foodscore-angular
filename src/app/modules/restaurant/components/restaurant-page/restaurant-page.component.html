@@ -1,0 +1,36 @@
+<ng-container *ngIf="restaurants && restaurants.length > 0">
+    <nav class="navbar navbar-light bg-light justify-content-between mt-3">
+        <ul class="nav nav-pills">
+            <li class="nav-item">
+                <a class="nav-link" href="#" id="orderName"
+                    [ngClass]="{'active': orderByName}"
+                    (click)="orderByNameHandler($event)">
+                        Order by name
+                </a>
+            </li>
+            <li class="nav-item ml-1">
+                <a class="nav-link" href="#" id="showOpen"
+                    [ngClass]="{'active': showOpen}"
+                    (click)="showOpenHandler($event)">
+                    Show open
+                </a>
+            </li>
+        </ul>
+        <form class="form-inline mb-0">
+            <input [(ngModel)]="search"
+                name="search"
+                class="form-control mr-sm-2"
+                type="text"
+                id="search"
+                placeholder="Search"
+                aria-label="Search">
+        </form>
+    </nav>
+    
+    <div class="card-columns">
+        <fs-restaurant-card *ngFor="let restaurant of restaurants | restaurantFilter: orderByName: showOpen: search"
+            [restaurant]="restaurant"
+            (delete)="deleteRestaurant(restaurant)">
+        </fs-restaurant-card>
+    </div>
+</ng-container>

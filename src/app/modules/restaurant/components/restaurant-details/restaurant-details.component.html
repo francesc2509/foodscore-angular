@@ -1,0 +1,45 @@
+<div *ngIf="restaurant" id="cardContainer" class="mt-4">
+    <fs-restaurant-card [restaurant]="restaurant"></fs-restaurant-card>
+</div>
+
+<!-- <div class="card mt-4">
+    <div class="card-header" id="address"></div>
+    <div class="card-body">
+        <div id="map"></div>
+    </div>
+</div> -->
+
+<ul class="list-group mt-4 mb-4" id="comments">
+    <li class="list-group-item active">Restaurant comments</li>
+    <li class="list-group-item d-flex flex-row" *ngFor="let comment of comments">
+        <div>
+            <img class="rounded-circle mr-3" style="width: 40px;" src="http://localhost:3000/img/profile.jpg" alt="">
+        </div>
+        <div>
+            <div><strong>{{comment.user.name}}: </strong>{{comment.text}}</div>
+            <div>
+                <i *ngFor="let star of comment.fullStars" class="fas fa-star"></i>
+                <!-- <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i> -->
+                <i *ngFor="let star of comment.emptyStars" class="far fa-star"></i>
+            </div>
+            <small>{{comment.date | date: 'dd/MM/yyyy hh:mm:ss'}}</small>
+        </div>
+    </li>
+</ul>
+
+<form class="mt-4" id="commentForm">
+    <h4>Write about this restaurant:</h4>
+    <div class="form-group">
+        <textarea class="form-control" name="comment" id="comment" placeholder="Write an opinion"></textarea>
+    </div>
+    <div id="stars">
+        <i class="far fa-star" data-score="1"></i>
+        <i class="far fa-star" data-score="2"></i>
+        <i class="far fa-star" data-score="3"></i>
+        <i class="far fa-star" data-score="4"></i>
+        <i class="far fa-star" data-score="5"></i>
+    </div>
+    <button type="submit" class="btn btn-primary mt-3">Send</button>
+</form>
