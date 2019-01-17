@@ -9,6 +9,7 @@ import { RestaurantService } from '../../services/restaurant.service';
     styleUrls: ['./restaurant-page.component.html']
 })
 export class RestaurantPageComponent implements OnInit {
+    loading = false;
     restaurants: Restaurant[] = [];
     orderByName = false;
     showOpen = false;
@@ -17,11 +18,14 @@ export class RestaurantPageComponent implements OnInit {
     constructor (private service: RestaurantService) {}
 
     ngOnInit(): void {
+        this.loading = true;
         this.service.getRestaurants().subscribe(
             res => {
                 console.log(res);
                 this.restaurants = res;
-            }
+            },
+            err => console.log(err),
+            () => this.loading = false
         );
     }
 

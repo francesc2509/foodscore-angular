@@ -1,0 +1,70 @@
+{{user | json}}
+<form action="#" id="form-register"
+    class="mt-4"
+    method="POST"
+    novalidate="novalidate"
+    role="form"
+    #registerForm="ngForm">
+    <legend>Create an account</legend>
+
+    <div class="form-group">
+        <label for="nombre">Name:</label>
+        <input type="text"
+            class="form-control"
+            id="name"
+            name="nameUser"
+            placeholder="Name"
+            required="required"
+            #nameModel="ngModel"
+            [(ngModel)]="user.name">
+    </div>
+    <div class="form-group">
+        <label for="correo">Email:</label>
+        <input type="email"
+            class="form-control"
+            id="email" name="email"
+            required="required"
+            placeholder="Email"
+            #email1Model="ngModel"
+            [(ngModel)]="user.email">
+    </div>
+    <div class="form-group">
+        <label for="correo">Repeat Email:</label>
+        <input type="email"
+            class="form-control"
+            id="email2"
+            name="email2"
+            placeholder="Email" 
+            required="required"
+            #email2Model="ngModel"
+            [(ngModel)]="email2">
+    </div>
+    <div class="form-group">
+        <label for="password">Password:</label>
+        <input type="password" class="form-control" id="password"
+            name="password"
+            placeholder="Password"
+            #passwordModel="ngModel"
+            [(ngModel)]="user.password">
+    </div>
+    <div class="form-group">
+        <label for="image">Avatar image</label>
+        <input type="file" class="form-control" id="avatar" name="avatar">
+    </div>
+    <img src="" alt="" id="imgPreview" class="img-thumbnail">
+    <div class="row">
+        <div class="form-group col-xs-12 col-sm-6">
+            <label for="latitude">Latitude:</label>
+            <input type="hidden" class="form-control" id="lat" name="lat"
+                placeholder="Geolocalizing..." readonly>
+        </div>
+        <div class="form-group col-xs-12 col-sm-6">
+            <label for="longitude">Longitude:</label>
+            <input type="hidden" class="form-control" id="lng" name="lng"
+                placeholder="Geolocalizing..." readonly>
+        </div>
+    </div>
+    <a href="#" (click)="$event.preventDefault()"
+        class="btn btn-secondary" role="button" fsGoBack>Go back</a>
+    <button type="submit" class="btn btn-primary">Create account</button>
+</form>

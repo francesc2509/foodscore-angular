@@ -1,36 +1,49 @@
-<ng-container *ngIf="restaurants && restaurants.length > 0">
-    <nav class="navbar navbar-light bg-light justify-content-between mt-3">
-        <ul class="nav nav-pills">
-            <li class="nav-item">
-                <a class="nav-link" href="#" id="orderName"
-                    [ngClass]="{'active': orderByName}"
+
+<ng-container *ngIf="restaurants && restaurants.length > 0; else loading">
+        <mat-toolbar>
+            <div class="filter-settings">
+                <mat-slide-toggle
+                    color="primary"
+                    [checked]="orderByName"
+                    [disabled]="false"
                     (click)="orderByNameHandler($event)">
-                        Order by name
-                </a>
-            </li>
-            <li class="nav-item ml-1">
-                <a class="nav-link" href="#" id="showOpen"
-                    [ngClass]="{'active': showOpen}"
+                    Order by name
+                </mat-slide-toggle>
+
+                <mat-slide-toggle
+                    color="primary"
+                    [checked]="showOpen"
+                    [disabled]="false"
                     (click)="showOpenHandler($event)">
-                    Show open
-                </a>
-            </li>
-        </ul>
-        <form class="form-inline mb-0">
-            <input [(ngModel)]="search"
-                name="search"
-                class="form-control mr-sm-2"
-                type="text"
-                id="search"
-                placeholder="Search"
-                aria-label="Search">
-        </form>
-    </nav>
-    
-    <div class="card-columns">
-        <fs-restaurant-card *ngFor="let restaurant of restaurants | restaurantFilter: orderByName: showOpen: search"
-            [restaurant]="restaurant"
-            (delete)="deleteRestaurant(restaurant)">
-        </fs-restaurant-card>
-    </div>
+                    Hide closed
+                </mat-slide-toggle>
+            </div>
+            <span class="fill-remaining-space"></span>
+            <form>
+                <mat-form-field class="example-full-width">
+                    <input matInput [(ngModel)]="search"
+                        name="search"
+                        class="form-control mr-sm-2"
+                        type="text"
+                        id="search"
+                        placeholder="Search"
+                        aria-label="Search" />
+                </mat-form-field>
+            </form>
+        </mat-toolbar>
+            
+        <div class="card-container"
+            fxLayout="row wrap"
+            fxLayoutAlign="center" fxLayoutGap="2em grid">
+            <div fxFlex="30%" *ngFor="let restaurant of restaurants | restaurantFilter: orderByName: showOpen: search">
+                <fs-restaurant-card [restaurant]="restaurant"
+                    (delete)="deleteRestaurant(restaurant)">
+                </fs-restaurant-card>
+            </div>
+        </div>
 </ng-container>
+<ng-template #loading>
+    <div fxLayout="column wrap" fxLayoutAlign="center center" class="row-height">
+        <mat-spinner *ngIf="loading"></mat-spinner>
+    </div>
+</ng-template>

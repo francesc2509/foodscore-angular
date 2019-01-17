@@ -26,6 +26,7 @@ export class RestaurantService {
                return res.restaurants.map(restaurant => {
                     restaurant.daysOpen = restaurant.daysOpen.map(day => Number(day));
                     restaurant.image = `${environment.baseUrl}/${restaurant.image}`;
+                    restaurant.avatar = `${environment.baseUrl}/${restaurant.avatar.replace(/\\/gi, '/')}`;
                     return restaurant;
                });
         }));
@@ -38,8 +39,8 @@ export class RestaurantService {
             map((res) => {
                 const restaurant = res.restaurant;
                 restaurant.daysOpen = restaurant.daysOpen.map(day => Number(day));
-                console.log(restaurant);
                 restaurant.image = `${environment.baseUrl}/${restaurant.image}`;
+                restaurant.avatar = `${environment.baseUrl}/${restaurant.avatar.replace(/\\/gi, '/')}`;
                 return restaurant;
             })
         );
@@ -51,8 +52,6 @@ export class RestaurantService {
         ).pipe(map((res) => {
             return res.comments.map(comment => {
                 comment.user.avatar = `${environment.baseUrl}/${comment.user.avatar}`;
-                comment.fullStars = Array(Math.ceil(comment.stars)).fill(true);
-                comment.emptyStars = Array(Math.ceil(5 - comment.stars)).fill(true);
                 return comment;
             });
         }));

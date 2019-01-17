@@ -18,8 +18,15 @@ const routes = <Routes>[
         }
     },
     {
-        path: 'new',
+        path: 'add',
         component: RestaurantFormComponent
+    },
+    {
+        path: 'edit/:id',
+        component: RestaurantFormComponent,
+        resolve: {
+            restaurant: RestaurantResolver
+        }
     },
     {
         path: '',

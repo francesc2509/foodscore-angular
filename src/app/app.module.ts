@@ -1,13 +1,15 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import {HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+
+import { MenuModule } from './modules/menu/menu.module';
+import { AuthTokenInterceptor, BaseUrlInterceptor } from './interceptors';
 
 import { AppRoutingModule } from './app-routing.module';
 
 import { AppComponent } from './app.component';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { AuthTokenInterceptor, BaseUrlInterceptor } from './interceptors';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
     declarations: [
@@ -18,6 +20,8 @@ import { AuthTokenInterceptor, BaseUrlInterceptor } from './interceptors';
         AppRoutingModule,
         FormsModule,
         HttpClientModule,
+        MenuModule,
+        BrowserAnimationsModule
     ],
     providers: [
         {

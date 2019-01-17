@@ -12,13 +12,26 @@ export class RestaurantDetailsComponent implements OnInit {
 
     restaurant: Restaurant;
     comments: Comment[];
+    newComment = <Comment>{};
 
     constructor(
-        private route: ActivatedRoute
+        private route: ActivatedRoute,
+        private service: RestaurantService
     ) {}
 
 
     ngOnInit() {
         this.restaurant = this.route.snapshot.data.restaurant;
+
+        this.service.getComments(this.restaurant.id).subscribe(
+            data => {
+                this.comments = data;
+            },
+            err => alert(err)
+        );
+    }
+
+    setStars(comment, stars) {
+        comment.stars = stars;
     }
 }

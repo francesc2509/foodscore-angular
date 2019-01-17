@@ -1,8 +1,10 @@
 import { OnInit, Component, Input, Output, EventEmitter } from '@angular/core';
+import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 
 import { Restaurant } from '../../models';
 import { days } from '../../../../constants';
 import { RestaurantService } from '../../services';
+
 
 @Component({
     selector: 'fs-restaurant-card',
@@ -12,15 +14,22 @@ import { RestaurantService } from '../../services';
 export class RestaurantCardComponent implements OnInit {
     open: boolean;
     weekDay: number;
+    fullStars = [];
+    emptyStars = [];
+    avatar: SafeStyle;
 
     @Input() restaurant: Restaurant;
     @Output() delete = new EventEmitter<Restaurant>();
 
-    constructor(private service: RestaurantService) {}
+    constructor(
+        private service: RestaurantService,
+        private sanitizer: DomSanitizer
+    ) {}
 
     ngOnInit() {
         this.weekDay = new Date().getDay();
         this.open = this.restaurant.daysOpen.includes(this.weekDay);
+        // this.avatar = this.sanitizer.bypassSecurityTrustStyle(`url(${this.restaurant.avatar})`);
     }
 
     deleteRestaurant() {

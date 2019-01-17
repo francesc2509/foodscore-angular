@@ -1,0 +1,6 @@
+<span [ngClass]="{'disabled': disabled}">
+    <mat-icon *ngFor="let star of fullStars; let i = index;"
+        (click)="starClickHandler(fullStars.length - (fullStars.length - i - 1))">star</mat-icon>
+    <mat-icon *ngFor="let star of emptyStars; let i = index;"
+        (click)="starClickHandler((stars - emptyStars.length) + i + 1)">star_border</mat-icon>
+</span>

@@ -9,5 +9,6 @@ export interface Restaurant {
     lat: number;
     lng: number;
     address: string;
+    avatar?: string;
     mine?: boolean;
 }

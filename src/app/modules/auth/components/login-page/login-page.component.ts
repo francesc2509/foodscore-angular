@@ -5,9 +5,12 @@ import { AuthService } from '../../services';
 import { User } from '../../../../models';
 @Component({
     selector: 'fs-login-page',
-    templateUrl: './login-page.component.html'
+    templateUrl: './login-page.component.html',
+    styleUrls: ['./login-page.component.scss']
 })
 export class LoginPageComponent {
+
+    error = undefined;
 
     user: User = {
         email: '',
@@ -25,7 +28,8 @@ export class LoginPageComponent {
                 this.router.navigate(['/restaurants']);
             },
             err => {
-                console.log(err);
+                this.error = err.error;
+                console.log(this.error);
             }
         );
     }

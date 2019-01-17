@@ -1,5 +1,5 @@
-<div class="card">
-    <img class="card-img-top" [src]="restaurant.image" [routerLink]="['/restaurant-details', restaurant.id]">
+<!-- <div class="card">
+    <img class="card-img-top" [src]="restaurant.image" [routerLink]="['details', restaurant.id]">
     <div class="card-body">
         <h5 class="card-title"
             [routerLink]="['details', restaurant.id]">
@@ -27,4 +27,49 @@
     <div class="card-footer">
         <small class="text-muted">{{restaurant.cuisine}}</small>
     </div>
-</div>
+</div> -->
+
+<mat-card class="example-card">
+    <mat-card-header>
+        <!-- <div mat-card-avatar [style.background]="avatar"></div> -->
+        <mat-card-title>
+            <span [routerLink]="['details', restaurant.id]">
+                    {{restaurant.name}}
+            </span>
+        </mat-card-title>
+        <mat-card-subtitle>{{restaurant.cuisine}}</mat-card-subtitle>
+    </mat-card-header>
+    <img mat-card-image [src]="restaurant.image"
+        [routerLink]="['details', restaurant.id]"
+        alt="Restaurant picture">
+    <mat-card-content>
+        <p [innerText]="restaurant.description"></p>
+        <div>
+            <small>
+                <strong>Opens: </strong>{{getDaysString(restaurant)}}
+            </small>
+            <ng-container [ngSwitch]="open">
+                <button mat-button color="accent" *ngSwitchCase="true">
+                    Open
+                </button>
+                <button mat-button color="warn" *ngSwitchCase="false">
+                    Closed
+                </button>
+            </ng-container>
+        </div>
+        <div>
+            <fs-rating-stars [rating]="restaurant.stars" [disabled]="true"></fs-rating-stars>
+        </div>
+    </mat-card-content>
+    <mat-card-actions>
+        <a mat-icon-button color="accent" [routerLink]="['edit', restaurant.id]">
+            <mat-icon>edit</mat-icon>
+        </a>
+        <button *ngIf="restaurant.mine"
+            mat-icon-button color="warn"
+            (click)="deleteRestaurant()">
+            <mat-icon>delete</mat-icon>
+        </button>
+    </mat-card-actions>
+    
+</mat-card>

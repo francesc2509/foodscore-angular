@@ -18,11 +18,11 @@
         <div>
             <div><strong>{{comment.user.name}}: </strong>{{comment.text}}</div>
             <div>
-                <i *ngFor="let star of comment.fullStars" class="fas fa-star"></i>
-                <!-- <i class="fas fa-star"></i>
-                <i class="fas fa-star"></i>
-                <i class="fas fa-star"></i> -->
-                <i *ngFor="let star of comment.emptyStars" class="far fa-star"></i>
+                <fs-rating-stars
+                    [rating]="comment.stars"
+                    (ratingChange)="setStars(comment, $event)"
+                    [stars]="5"
+                    [disabled]="true"></fs-rating-stars>
             </div>
             <small>{{comment.date | date: 'dd/MM/yyyy hh:mm:ss'}}</small>
         </div>
@@ -35,11 +35,11 @@
         <textarea class="form-control" name="comment" id="comment" placeholder="Write an opinion"></textarea>
     </div>
     <div id="stars">
-        <i class="far fa-star" data-score="1"></i>
-        <i class="far fa-star" data-score="2"></i>
-        <i class="far fa-star" data-score="3"></i>
-        <i class="far fa-star" data-score="4"></i>
-        <i class="far fa-star" data-score="5"></i>
+        <fs-rating-stars
+            [(rating)]="newComment.stars"
+            [stars]="5"
+            [disabled]="false">
+        </fs-rating-stars>      
     </div>
     <button type="submit" class="btn btn-primary mt-3">Send</button>
 </form>

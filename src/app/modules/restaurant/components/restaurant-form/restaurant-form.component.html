@@ -1,71 +1,87 @@
-<form class="mt-4" id="newPlace" #restaurantForm="ngForm" (ngSubmit)="addRestaurant()" novalidate="novalidate">
-    <div class="form-group">
-        <label for="name">Name</label>
-        <input type="text" class="form-control" required="required" minlength="5"
-            [(ngModel)]="newRest.name"
-            #nameModel="ngModel"
-            name="name"
-            id="name"
-            placeholder="Enter name"
-            [ngClass]="{'is-valid': nameModel.touched && nameModel.valid,'is-invalid': nameModel.touched && !nameModel.valid}">
-        <div class="invalid-feedback">Name is required and can only contain letters and spaces.</div>
-    </div>
-    <div class="form-group">
-        <label for="description">Description</label>
-        <textarea class="form-control" id="description" required="required"
-            [(ngModel)]="newRest.description"
-            #descModel="ngModel"
-            name="description" rows="3"
-            placeholder="Description"
-            [ngClass]="{'is-valid': descModel.touched && descModel.valid,'is-invalid': descModel.touched && !descModel.valid}">
-        </textarea>
-        <div class="invalid-feedback">Description is required.</div>
-    </div>
-    <div class="form-group">
-        <label for="cuisine">Cuisine</label>
-        <input type="text" class="form-control"
-            [(ngModel)]="newRest.cuisine"
-            #cuisineModel="ngModel"
-            name="cuisine" id="cuisine" placeholder="Cuisine" required="required"
-            [ngClass]="{'is-valid': cuisineModel.touched && cuisineModel.valid, 'is-invalid': cuisineModel.touched && !cuisineModel.valid}">
-        <div class="invalid-feedback">Cuisine is required.</div>
-    </div>
-    
-    <p>Opening days</p>
-    <div class="form-group" ngModelGroup="daysGroup" #daysModel="ngModelGroup"
-        fsOneChecked>
-        <div class="custom-control custom-control-inline custom-checkbox"
-            *ngFor="let day of days; let i = index">
-            <input class="custom-control-input"
-                type="checkbox"
-                id="checkDay{{i}}" 
-                name="days{{i}}"
-                [(ngModel)]="daysOpen[i]">
-            <label class="custom-control-label" for="checkDay{{i}}">{{day}}</label>
-        </div>
-        <div *ngIf="daysModel.invalid" class="text-danger" id="daysError">
-            <small>You must chooose at least 1 day.</small>
-        </div>
-    </div>
-    
-    <div class="form-group">
-        <label for="phone">Phone number</label>
-        <input type="text" class="form-control" id="phone" [(ngModel)]="newRest.phone"
-            name="phone" placeholder="Phone number">
-        <div class="invalid-feedback">Phone is required. 9 numbers (prefix optional).</div>
-    </div>
-    
-    <div class="form-group">
-        <label for="image">Main photo</label>
-        <input #fileInput
-            type="file" class="form-control" id="image" name="image"
-            (change)="changeImage(fileInput)"  required="required">
-        <div class="invalid-feedback">An image is required.</div>
-    </div>
-    <img src="" alt="" id="imgPreview" class="img-thumbnail">
+<form fxLayout="row"
+    fxLayoutAlign="center center"
+    class="row-height"
+    method="POST"
+    role="form"
+    [formGroup]="restaurantForm"
+    (ngSubmit)="submit($event)">
 
-    <button type="submit" class="btn btn-primary"
-        [disabled]="!restaurantForm.valid || !fileInput.files.length">
-        Create
-    </button>
+    <mat-card fxFlex="50%">
+            <mat-card-title-group>
+                <mat-card-title>New restaurant</mat-card-title>
+                <img *ngIf="image" mat-card-lg-image
+                    [src]="image"
+                    alt="Photo of a Shiba Inu">
+            </mat-card-title-group>
+            <mat-card-content fxLayout="column">
+                {{newRest | json}}
+                <mat-form-field>
+                    <input matInput placeholder="Name" [formControl]="restaurantForm.get('name')">
+                    <mat-error *ngIf="restaurantForm.get('name').hasError('required')">
+                        Name is <strong>required</strong>
+                    </mat-error>
+                    <mat-error *ngIf="restaurantForm.get('name').hasError('pattern')">
+                        Name musts contain 5 characters at least
+                    </mat-error>
+                </mat-form-field>
+
+                <mat-form-field>
+                    <textarea matInput placeholder="Description" rows="3"
+                        [formControl]="restaurantForm.get('description')">
+                    </textarea>
+                    <mat-error *ngIf="restaurantForm.get('description').hasError('required')">
+                        Description is <strong>required</strong>
+                    </mat-error>
+                </mat-form-field>
+
+                <mat-form-field>
+                    <input matInput placeholder="Cuisine"
+                        [formControl]="restaurantForm.get('cuisine')" />
+                    <mat-error *ngIf="restaurantForm.get('cuisine').hasError('required')">
+                        Cuisine is <strong>required</strong>
+                    </mat-error>
+                </mat-form-field>
+                
+                <div [formGroup]="restaurantForm.get('days')" fsOneChecked>
+                    <div fxLayout="row">
+                        
+                        <div *ngFor="let day of days; let i = index" fxFlex="20%">
+                            <mat-checkbox formControlName="days{{i}}">
+                                {{day}}
+                            </mat-checkbox>
+                        </div>
+                    </div>
+                    <mat-error *ngIf="!restaurantForm.get('days').valid">
+                        You must chooose at least 1 day.
+                    </mat-error>
+                 </div>
+
+                <mat-form-field>
+                    <input matInput placeholder="Phone"
+                        [formControl]="restaurantForm.get('phone')" />
+                    <mat-error *ngIf="restaurantForm.get('phone').hasError('required')">
+                        Phone is <strong>required</strong>
+                    </mat-error>
+                    <mat-error *ngIf="restaurantForm.get('phone').hasError('pattern')">
+                        Phone is not valid
+                    </mat-error>
+                </mat-form-field>
+            </mat-card-content>
+            
+            <div>
+                <button mat-raised-button type="button" color="accent">
+                    <label mat-raised-button for="image">Select image</label>
+                </button>
+                <input #fileInput type="file" name="image" id="image"
+                    [formControl]="restaurantForm.get('image')"
+                    (change)="changeImage(fileInput)"
+                    class="d-none">
+            </div>
+
+            <div fxLayout="row" fxLayoutAlign="center center">
+                <button type="submit" mat-raised-button color="accent" [disabled]="!image && !restaurantForm.valid">
+                    Create
+                </button>
+            </div>
+    </mat-card>
 </form>

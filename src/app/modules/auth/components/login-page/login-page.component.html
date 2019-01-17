@@ -1,4 +1,4 @@
-<form action="#" id="form-login" class="mt-4" method="POST" role="form" (ngSubmit)="login($event)">
+<!-- <form action="#" id="form-login" class="mt-4" method="POST" role="form" (ngSubmit)="login($event)">
     <legend>Welcome to FoodScore!</legend>
 
     <div class="form-group">
@@ -13,6 +13,46 @@
             [(ngModel)]="user.password">
     </div>
     <p *ngIf="error" class="text-danger" id="errorInfo">{{error}}</p>
-    <!-- <a class="btn btn-secondary" [routerLink]="">Create account</a> -->
-    <button type="submit" class="btn btn-primary">Login</button>
+    <a mat-raised-button routerLink="/auth/register">Create account</a>
+    <button type="submit" mat-raised-button color="accent">
+        Login
+    </button>
+</form> -->
+
+
+<form fxLayout="row"
+    fxLayoutAlign="center center"
+    class="row-height"
+    method="POST"
+    role="form"
+    (ngSubmit)="login($event)">
+
+    <mat-card fxFlex="30%">
+            <mat-card-title>Login</mat-card-title>
+    
+            <mat-card-content fxLayout="column" fxLayout="column">
+                <mat-form-field class="example-full-width">
+                    <input type="email" matInput placeholder="E-mail"
+                        name="email"
+                        [(ngModel)]="user.email">
+                </mat-form-field>
+                
+                <mat-form-field class="example-full-width">
+                    <input type="password" matInput placeholder="Password"
+                        name="password"
+                        [(ngModel)]="user.password">
+                </mat-form-field>
+
+                <mat-label *ngIf="error" color="warn">
+                    {{error.error}}
+                </mat-label>
+            </mat-card-content>
+            
+            <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="0.5em">
+                <a mat-raised-button routerLink="/auth/register">Create account</a>
+                <button type="submit" mat-raised-button color="accent">
+                    Login
+                </button>
+            </div>
+    </mat-card>
 </form>
