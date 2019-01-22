@@ -1,0 +1,8 @@
+<div>
+    <button mat-raised-button type="button" color="accent" [disabled]="disabled">
+        <label mat-raised-button for="file">Select image</label>
+    </button>
+    <input #fileInput type="file" id="file"
+        (change)="changeImage(fileInput)"
+        class="d-none">
+</div>

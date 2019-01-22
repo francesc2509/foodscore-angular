@@ -9,12 +9,11 @@
     <mat-card fxFlex="50%">
             <mat-card-title-group>
                 <mat-card-title>New restaurant</mat-card-title>
-                <img *ngIf="image" mat-card-lg-image
+                <!-- <img *ngIf="image" mat-card-lg-image
                     [src]="image"
-                    alt="Photo of a Shiba Inu">
+                    alt=""> -->
             </mat-card-title-group>
             <mat-card-content fxLayout="column">
-                {{newRest | json}}
                 <mat-form-field>
                     <input matInput placeholder="Name" [formControl]="restaurantForm.get('name')">
                     <mat-error *ngIf="restaurantForm.get('name').hasError('required')">
@@ -68,18 +67,13 @@
                 </mat-form-field>
             </mat-card-content>
             
-            <div>
-                <button mat-raised-button type="button" color="accent">
-                    <label mat-raised-button for="image">Select image</label>
-                </button>
-                <input #fileInput type="file" name="image" id="image"
-                    [formControl]="restaurantForm.get('image')"
-                    (change)="changeImage(fileInput)"
-                    class="d-none">
-            </div>
-
+            <fs-file-input [formControl]="restaurantForm.get('image')"
+                name="image"
+                (change)="image = $event"></fs-file-input>
+            <!-- <fs-mapbox formControlName="location"></fs-mapbox> -->
+            <fs-mapbox [formGroup]="restaurantForm.get('location')"></fs-mapbox>
             <div fxLayout="row" fxLayoutAlign="center center">
-                <button type="submit" mat-raised-button color="accent" [disabled]="!image && !restaurantForm.valid">
+                <button type="submit" mat-raised-button color="accent" [disabled]="!this.image || restaurantForm.invalid">
                     Create
                 </button>
             </div>

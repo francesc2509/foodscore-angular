@@ -25,6 +25,8 @@
     class="row-height"
     method="POST"
     role="form"
+    novalidate="novalidate"
+    [formGroup]="loginForm"
     (ngSubmit)="login($event)">
 
     <mat-card fxFlex="30%">
@@ -33,14 +35,14 @@
             <mat-card-content fxLayout="column" fxLayout="column">
                 <mat-form-field class="example-full-width">
                     <input type="email" matInput placeholder="E-mail"
-                        name="email"
-                        [(ngModel)]="user.email">
+                        [formControl]="loginForm.get('email')"
+                        name="email">
                 </mat-form-field>
                 
                 <mat-form-field class="example-full-width">
                     <input type="password" matInput placeholder="Password"
-                        name="password"
-                        [(ngModel)]="user.password">
+                        [formControl]="loginForm.get('password')"
+                        name="password">
                 </mat-form-field>
 
                 <mat-label *ngIf="error" color="warn">

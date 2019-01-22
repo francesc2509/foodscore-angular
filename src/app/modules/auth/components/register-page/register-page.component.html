@@ -1,10 +1,10 @@
-{{user | json}}
-<form action="#" id="form-register"
+<!-- <form action="#" id="form-register"
     class="mt-4"
     method="POST"
     novalidate="novalidate"
-    role="form"
-    #registerForm="ngForm">
+    (ngSubmit)="submit()"
+    [formGroup]="registerForm"
+    role="form">
     <legend>Create an account</legend>
 
     <div class="form-group">
@@ -13,46 +13,45 @@
             class="form-control"
             id="name"
             name="nameUser"
-            placeholder="Name"
-            required="required"
-            #nameModel="ngModel"
-            [(ngModel)]="user.name">
+            [formControl]="registerForm.get('name')"
+            placeholder="Name">
     </div>
-    <div class="form-group">
-        <label for="correo">Email:</label>
-        <input type="email"
-            class="form-control"
-            id="email" name="email"
-            required="required"
-            placeholder="Email"
-            #email1Model="ngModel"
-            [(ngModel)]="user.email">
-    </div>
-    <div class="form-group">
-        <label for="correo">Repeat Email:</label>
-        <input type="email"
-            class="form-control"
-            id="email2"
-            name="email2"
-            placeholder="Email" 
-            required="required"
-            #email2Model="ngModel"
-            [(ngModel)]="email2">
-    </div>
+    <ng-container [formGroup]="registerForm.get('emailGroup')">
+        <div class="form-group">
+            <label for="correo">Email:</label>
+            <input type="email"
+                class="form-control"
+                id="email" name="email"
+                [formControl]="registerForm.get('emailGroup').get('email')"
+                placeholder="Email">
+        </div>
+        <div class="form-group">
+            <label for="correo">Repeat Email:</label>
+            <input type="email"
+                class="form-control"
+                id="email2"
+                name="email2"
+                placeholder="Email" 
+                [formControl]="registerForm.get('emailGroup').get('email2')">
+        </div>
+    </ng-container>
     <div class="form-group">
         <label for="password">Password:</label>
         <input type="password" class="form-control" id="password"
             name="password"
             placeholder="Password"
-            #passwordModel="ngModel"
-            [(ngModel)]="user.password">
+            [formControl]="registerForm.get('password')">
     </div>
     <div class="form-group">
         <label for="image">Avatar image</label>
-        <input type="file" class="form-control" id="avatar" name="avatar">
+        <input type="file"
+            class="form-control"
+            id="avatar"
+            name="avatar"
+            [formControl]="registerForm.get('avatar')">
     </div>
     <img src="" alt="" id="imgPreview" class="img-thumbnail">
-    <div class="row">
+    <div class="row" hidden>
         <div class="form-group col-xs-12 col-sm-6">
             <label for="latitude">Latitude:</label>
             <input type="hidden" class="form-control" id="lat" name="lat"
@@ -67,4 +66,56 @@
     <a href="#" (click)="$event.preventDefault()"
         class="btn btn-secondary" role="button" fsGoBack>Go back</a>
     <button type="submit" class="btn btn-primary">Create account</button>
+</form> -->
+
+<form fxLayout="row"
+    fxLayoutAlign="center center"
+    class="row-height"
+    method="POST"
+    role="form"
+    novalidate="novalidate"
+    [formGroup]="registerForm"
+    (ngSubmit)="submit($event)">
+
+    <mat-card fxFlex="30%">
+        <mat-card-title>Register</mat-card-title>
+
+        <mat-card-content fxLayout="column">
+            <mat-form-field>
+                <input type="text" matInput placeholder="Name"
+                    [formControl]="registerForm.get('name')"
+                    name="name">
+            </mat-form-field>
+            
+
+            <ng-container [formGroup]="registerForm.get('emailGroup')">
+                <mat-form-field>
+                    <input type="text" matInput placeholder="E-mail"
+                        [formControl]="registerForm.get('emailGroup').get('email')"
+                        name="email">
+                </mat-form-field>
+
+                <mat-form-field>
+                    <input type="text" matInput placeholder="Repeat E-mail"
+                        [formControl]="registerForm.get('emailGroup').get('email2')"
+                        name="name">
+                </mat-form-field>
+            </ng-container>
+
+            <mat-form-field>
+                <input type="password" matInput placeholder="Password"
+                    [formControl]="registerForm.get('password')"
+                    name="password">
+            </mat-form-field>
+            
+            <fs-file-input [formControl]="registerForm.get('avatar')" name="avatar"></fs-file-input>
+        </mat-card-content>
+        
+        <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="0.5em">
+            <button type="button" mat-raised-button fsGoBack>Go back</button>
+            <button type="submit" mat-raised-button color="accent" [disabled]="!registerForm.valid">
+                Register
+            </button>
+        </div>
+    </mat-card>
 </form>

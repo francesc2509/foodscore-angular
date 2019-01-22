@@ -2,9 +2,12 @@ import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
-    MatButtonModule, MatFormFieldModule, MatInputModule, MatCardModule,
+    MatButtonModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatCardModule,
     MatDividerModule
 } from '@angular/material';
 
@@ -20,13 +23,14 @@ import { LoginPageComponent, RegisterPageComponent } from './components';
         HttpClientModule,
         AuthRoutingModule,
         FormsModule,
+        ReactiveFormsModule,
         MatButtonModule,
         MatFormFieldModule,
         MatInputModule,
         SharedModule,
         MatCardModule,
         MatDividerModule,
-        FlexLayoutModule
+        FlexLayoutModule,
     ],
     declarations: [
         LoginPageComponent,

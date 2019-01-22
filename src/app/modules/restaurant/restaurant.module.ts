@@ -8,6 +8,7 @@ import {
     MatIconModule,
     MatInputModule,
     MatFormFieldModule,
+    MatListModule,
     MatProgressSpinnerModule,
     MatCardModule,
     MatToolbarModule,
@@ -42,12 +43,13 @@ import { RestaurantFilterPipe } from './pipes';
         MatCheckboxModule,
         MatInputModule,
         MatFormFieldModule,
+        MatListModule,
         MatProgressSpinnerModule,
         MatToolbarModule,
         MatSlideToggleModule,
         RestaurantRoutingModule,
         SharedModule,
-        MatBadgeModule
+        MatBadgeModule,
     ],
     declarations: [
         RestaurantCardComponent,

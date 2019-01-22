@@ -1,47 +1,28 @@
-<!-- <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <a class="navbar-brand" href="#">FoodScore</a>
-    <ng-container *ngIf="logged">
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
-                
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" [routerLink]="'/restaurants/new'">New restaurant</a>
-            </li>
-            <!-- <li class="nav-item">
-                <a class="nav-link" href="profile.html">My profile</a>
-            </li>
-        </ul>
-        <ul class="navbar-nav">
-            <li class="nav-item">
-                <a class="nav-link" href="#" id="logout" (click)="logout($event)">Logout</a>
-            </li>
-        </ul>
-    </ng-container>
-</nav> -->
-<mat-toolbar color="primary" class="mat-elevation-z5">
-    <h1>
-        FoodScore
-    </h1>
+<nav>
+    <mat-toolbar color="primary" class="mat-elevation-z5">
+        <h1>
+            FoodScore
+        </h1>
 
-    <ng-container *ngIf="logged">
-        <div class="fs-links">
-            <span class="nav-item">
-                <a class="nav-link" [routerLink]="'/restaurants'">Home</a>
-            </span>
-            <span class="nav-item">
-                <a class="nav-link" [routerLink]="'/restaurants/new'">New restaurant</a>
-            </span>
-            <!-- <li class="nav-item">
+        <ng-container *ngIf="logged">
+            <div class="fs-links">
+                <span class="nav-item">
+                    <a class="nav-link" [routerLink]="'/restaurants'">Home</a>
+                </span>
+                <span class="nav-item">
+                    <a class="nav-link" [routerLink]="'/restaurants/add'">New restaurant</a>
+                </span>
+                <!-- <li class="nav-item">
                 <a class="nav-link" href="profile.html">My profile</a>
             </li> -->
-        </div>
-        
-        <!-- This fills the remaining space of the current row -->
-        <span class="fill-remaining-space"></span>
-        
-        <a href="#" (click)="logout($event)" fxLayout="row" fxLayoutAlign="center center">
-            <mat-icon>power_settings_new</mat-icon>
-        </a>
-    </ng-container>
-</mat-toolbar>
+            </div>
+
+            <!-- This fills the remaining space of the current row -->
+            <span class="fill-remaining-space"></span>
+
+            <a href="#" (click)="logout($event)" fxLayout="row" fxLayoutAlign="center center">
+                <mat-icon>power_settings_new</mat-icon>
+            </a>
+        </ng-container>
+    </mat-toolbar>
+</nav>

@@ -12,6 +12,8 @@ import { RestaurantService } from '../../services';
     styleUrls: ['./restaurant-card.component.html'],
 })
 export class RestaurantCardComponent implements OnInit {
+    private position;
+
     open: boolean;
     weekDay: number;
     fullStars = [];

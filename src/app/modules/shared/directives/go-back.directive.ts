@@ -6,8 +6,9 @@ import { Directive, HostListener } from '@angular/core';
     selector: '[fsGoBack]'
 })
 export class GoBackDirective {
-    @HostListener('click')
+    @HostListener('click', [`$event`])
     goBack = (event) => {
+        event.preventDefault();
         this.location.back();
     }
 

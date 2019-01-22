@@ -4,7 +4,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { Restaurant, Comment } from '../models';
+import { Restaurant, Comment, GetCommentResponse, GetCommentsResponse } from '../models';
 import {
     GetRestaurantsResponse,
     GetRestaurantResponse
@@ -47,13 +47,29 @@ export class RestaurantService {
     }
 
     getComments(id: number): Observable<Comment[]> {
-        return this.http.get<{comments: Comment[]}>(
+        return this.http.get<GetCommentsResponse>(
             `/restaurants/${id}/comments`
         ).pipe(map((res) => {
             return res.comments.map(comment => {
                 comment.user.avatar = `${environment.baseUrl}/${comment.user.avatar}`;
                 return comment;
             });
+        }));
+    }
+
+    addComment(comment: Comment, restaurantId: number) {
+        const headers = new HttpHeaders();
+        headers.append('Content-Type', 'application/json');
+
+        return this.http.post<GetCommentResponse>(
+            `/restaurants/${restaurantId}/comments`,
+            comment,
+            {
+                headers: headers
+            }
+
+        ).pipe(map((res) => {
+            return res.comment;
         }));
     }
 
@@ -66,9 +82,9 @@ export class RestaurantService {
             phone: rest.phone,
             image: rest.image,
             cuisine: rest.cuisine.split(','),
-            address: 'Fake St. 123',
-            lat: 0,
-            lng: 0,
+            address: rest.address,
+            lat: rest.lat,
+            lng: rest.lng,
         };
 
         h.append('Content-Type', 'application/json');

@@ -37,6 +37,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; overflow: h
 
 .fill-remaining-space {
     flex: 1 1 auto;
+    height: 1px;
 }
 
 .mat-slide-toggle {
@@ -61,4 +62,10 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; overflow: h
 
 label {
     cursor: inherit;
+}
+
+mgl-map {
+    margin: 2em 0; 
+    height: 250px;
+    width: 100%;
 }

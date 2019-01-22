@@ -5,6 +5,8 @@ import { Restaurant } from '../../models';
 import { days } from '../../../../constants';
 import { RestaurantService } from '../../services';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
+import { GeolocationService } from '../../../shared/services/geolocation.service';
+import { Observable } from 'rxjs';
 
 
 @Component({
@@ -13,11 +15,10 @@ import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms'
     styleUrls: ['./restaurant-form.component.html'],
 })
 export class RestaurantFormComponent implements OnInit {
-    // @ViewChild('restaurantForm') restaurantForm: FormGroup;
-
     restaurantForm: FormGroup;
 
     readonly days = days;
+    coords: Coordinates;
     restaurant: Restaurant;
     daysOpen: boolean[];
     image = '';
@@ -25,6 +26,7 @@ export class RestaurantFormComponent implements OnInit {
 
     constructor(
         private restaurantService: RestaurantService,
+        private geolocationService: GeolocationService,
         private fb: FormBuilder,
         private router: Router,
         private route: ActivatedRoute
@@ -38,27 +40,29 @@ export class RestaurantFormComponent implements OnInit {
     submit(): void {
         console.log(this.restaurantForm);
 
-        if (this.restaurantForm.valid) {
+        if (this.restaurantForm.valid && this.image) {
             this.daysOpen = Object.values(this.restaurantForm.get('days').value);
             let id = -1;
             if (this.restaurant) {
                 id = this.restaurant.id;
-                this.image = this.image || this.restaurant.image;
+                this.image = this.restaurantForm.get('image').value || this.restaurant.image;
             }
+
+            const coords = <Coordinates>this.restaurantForm.get('location').get('coords').value;
 
             this.restaurant = {
                 id:  id,
                 name: this.restaurantForm.get('name').value,
                 description: this.restaurantForm.get('description').value,
-                address: 'Fake St. 123',
+                address: this.restaurantForm.get('location').get('address').value,
                 cuisine: this.restaurantForm.get('cuisine').value,
-                image: this.image,
+                image: this.restaurantForm.get('image').value,
                 phone: this.restaurantForm.get('phone').value,
-                lat: 0,
-                lng: 0,
+                lat: coords.latitude,
+                lng: coords.longitude,
                 daysOpen: this.daysOpen.reduce((daysList, isSelected, i) => isSelected ? [...daysList, i] : daysList, [])
             };
-
+            debugger;
             if (this.restaurant.id === -1) {
                 this.restaurantService.addRestaurant(this.restaurant).subscribe(
                     restaurant => {
@@ -72,24 +76,14 @@ export class RestaurantFormComponent implements OnInit {
         }
     }
 
-    changeImage(fileInput: HTMLInputElement): void {
-        if (!fileInput.files || fileInput.files.length === 0) {
-            this.image = '';
-            return;
-        }
-        const reader: FileReader = new FileReader();
-        reader.readAsDataURL(fileInput.files[0]);
-        reader.addEventListener('loadend', e => {
-            this.image = reader.result.toString();
-        });
-    }
-
     private createForm(): void {
         let name = '';
         let description = '';
         let cuisine = '';
         this.daysOpen = new Array(7).fill(true);
         let phone = '';
+        let coords: Coordinates;
+        let address = '';
 
         if (this.restaurant) {
             name = this.restaurant.name;
@@ -100,6 +94,8 @@ export class RestaurantFormComponent implements OnInit {
             });
             this.image = this.restaurant.image;
             phone = this.restaurant.phone;
+            coords = <Coordinates>{ latitude: this.restaurant.lat, longitude: this.restaurant.lng };
+            address = this.restaurant.address;
         }
 
         this.restaurantForm = this.fb.group({
@@ -131,6 +127,16 @@ export class RestaurantFormComponent implements OnInit {
                     Validators.pattern('^((0|\\+)?[0-9]{2})?[0-9]{9}$'),
                 ]
             ),
+            // location: new FormControl(
+            //     {
+            //         coords: coords,
+            //         address: address
+            //     }
+            // ),
+            location: this.fb.group({
+                coords: [ coords, [ Validators.required ] ],
+                address: [ address, [ Validators.required ] ]
+            }),
         });
     }
 

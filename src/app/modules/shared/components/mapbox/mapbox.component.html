@@ -1,0 +1,15 @@
+<ng-template #map let-position="position">
+    <div fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="0.2em grid">
+        <mgl-map [style]="'mapbox://styles/mapbox/streets-v11'"
+        [zoom]="[17]"
+        [center]="[position.coords.longitude, position.coords.latitude]">
+            <mgl-control *ngIf="enableSearch" mglGeocoder (result)="changePosition($event.result)">
+            </mgl-control>
+            <mgl-marker [lngLat]="[position.coords.longitude, position.coords.latitude]"></mgl-marker>
+        </mgl-map>
+    </div>
+</ng-template>
+
+<ng-container *ngIf="position">
+    <ng-container *ngTemplateOutlet="map; context: { position: position }"></ng-container>
+</ng-container>

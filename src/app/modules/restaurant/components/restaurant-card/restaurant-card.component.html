@@ -58,7 +58,7 @@
             </ng-container>
         </div>
         <div>
-            <fs-rating-stars [rating]="restaurant.stars" [disabled]="true"></fs-rating-stars>
+            <fs-rating-stars [ngModel]="restaurant.stars" [disabled]="true"></fs-rating-stars>
         </div>
     </mat-card-content>
     <mat-card-actions>
@@ -71,5 +71,10 @@
             <mat-icon>delete</mat-icon>
         </button>
     </mat-card-actions>
+    <mat-card-footer>
+        <p fxLayout="row" fxLayoutAlign="center center">
+            <small>{{restaurant.distance | number:'1.1-2'}} Km</small>
+        </p>
+    </mat-card-footer>
     
 </mat-card>
