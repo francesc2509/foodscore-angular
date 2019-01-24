@@ -12,7 +12,7 @@ export class GeolocationService {
                     (pos) => {
                         resolve(pos.coords);
                     },
-                    (err) => reject(err)
+                    (err) => resolve(<Coordinates>{ latitude: 0, longitude: 0 })
                 );
             }
         ));

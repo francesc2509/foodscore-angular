@@ -2,6 +2,8 @@ import { OnInit, Component } from '@angular/core';
 
 import { Restaurant } from '../../models';
 import { RestaurantService } from '../../services/restaurant.service';
+import { ActivatedRoute } from '@angular/router';
+import { Show } from '../../constants';
 
 @Component({
     selector: 'fs-restaurant-page',
@@ -15,17 +17,44 @@ export class RestaurantPageComponent implements OnInit {
     showOpen = false;
     search = '';
 
-    constructor (private service: RestaurantService) {}
+    constructor (
+        private service: RestaurantService,
+        private route: ActivatedRoute
+    ) {}
 
     ngOnInit(): void {
+        const show = this.route.snapshot.data.show;
+
+        let restaurants$;
+        switch (show) {
+            case Show.ALL:
+                restaurants$ = this.service.getAll();
+                break;
+            case Show.MINE:
+                restaurants$ = this.service.getMine();
+                break;
+            case Show.USER:
+                const id = Math.floor(Number(this.route.snapshot.params['id']));
+
+                if (isNaN(id) || id < 1) {
+                    throw new Error(`'Id' must be a positive number`);
+                }
+                restaurants$ = this.service.getByUser(id);
+                break;
+        }
+
         this.loading = true;
-        this.service.getRestaurants().subscribe(
+        restaurants$.subscribe(
             res => {
-                console.log(res);
                 this.restaurants = res;
             },
-            err => console.log(err),
-            () => this.loading = false
+            err => {
+                this.loading = false;
+                console.log(err);
+            },
+            () => {
+                this.loading = false;
+            }
         );
     }
 

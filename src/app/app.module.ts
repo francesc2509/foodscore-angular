@@ -10,6 +10,7 @@ import { AppRoutingModule } from './app-routing.module';
 
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { GoogleLoginModule } from './modules/google-login/google-login.module';
 
 @NgModule({
     declarations: [
@@ -21,7 +22,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
         FormsModule,
         HttpClientModule,
         MenuModule,
-        BrowserAnimationsModule
+        BrowserAnimationsModule,
+        GoogleLoginModule.withConfig('3493852405-i42aed10i54blfjpt7l42i5rtilkpl0j.apps.googleusercontent.com'),
     ],
     providers: [
         {

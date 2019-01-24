@@ -10,6 +10,7 @@ import {
     GetRestaurantResponse
 } from '../models';
 import { environment } from '../../../../environments/environment';
+import { Show } from '../constants';
 
 @Injectable({
     providedIn: 'root'
@@ -18,18 +19,31 @@ export class RestaurantService {
 
     constructor(private http: HttpClient) {}
 
-    getRestaurants(): Observable<Restaurant[]> {
+    private getRestaurants(params = ''): Observable<Restaurant[]> {
+        const url = `/restaurants/${params}`;
+
         return this.http
             .get<GetRestaurantsResponse>(
-                `/restaurants`
+                url
             ).pipe(map(res => {
                return res.restaurants.map(restaurant => {
                     restaurant.daysOpen = restaurant.daysOpen.map(day => Number(day));
                     restaurant.image = `${environment.baseUrl}/${restaurant.image}`;
-                    restaurant.avatar = `${environment.baseUrl}/${restaurant.avatar.replace(/\\/gi, '/')}`;
                     return restaurant;
                });
         }));
+    }
+
+    getAll(): Observable<Restaurant[]> {
+        return this.getRestaurants();
+    }
+
+    getMine() {
+        return this.getRestaurants('mine');
+    }
+
+    getByUser(id: number) {
+        return this.getRestaurants(`user/${id}`);
     }
 
     getRestaurant(id: number): Observable<Restaurant> {
@@ -40,7 +54,6 @@ export class RestaurantService {
                 const restaurant = res.restaurant;
                 restaurant.daysOpen = restaurant.daysOpen.map(day => Number(day));
                 restaurant.image = `${environment.baseUrl}/${restaurant.image}`;
-                restaurant.avatar = `${environment.baseUrl}/${restaurant.avatar.replace(/\\/gi, '/')}`;
                 return restaurant;
             })
         );

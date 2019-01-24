@@ -16,6 +16,7 @@ import { SharedModule } from '../shared/shared.module';
 import { AuthRoutingModule } from './auth-routing.module';
 
 import { LoginPageComponent, RegisterPageComponent } from './components';
+import { GoogleLoginModule } from '../google-login/google-login.module';
 
 @NgModule({
     imports: [
@@ -31,6 +32,7 @@ import { LoginPageComponent, RegisterPageComponent } from './components';
         MatCardModule,
         MatDividerModule,
         FlexLayoutModule,
+        GoogleLoginModule.withConfig('AIzaSyBOsD1guCZbuq-owCb6iCzjqLJSi6rLNiM.apps.googleusercontent.com'),
     ],
     declarations: [
         LoginPageComponent,

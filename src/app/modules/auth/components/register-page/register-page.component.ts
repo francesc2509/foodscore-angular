@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ValidatorFn, ValidationErrors, AbstractControl } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
 
 import { User } from '../../../../models';
+import { AuthService } from '../../services';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -12,34 +14,49 @@ import { User } from '../../../../models';
 export class RegisterPageComponent implements OnInit {
     registerForm: FormGroup;
 
-    constructor(private fb: FormBuilder) {}
+    private emailMatcher = (control: AbstractControl): {[key: string]: boolean} => {
+        const email = control.get('email');
+        const confirm = control.get('email2');
+
+        console.log(control);
+        if (!email || !confirm) { return null; }
+        return email.value === confirm.value ? null : { nomatch: true };
+    }
+
+    constructor(
+        private fb: FormBuilder,
+        private service: AuthService,
+        private router: Router
+    ) { }
 
     ngOnInit() {
         this.registerForm = this.fb.group({
-            name: ['', [ Validators.required ] ],
+            name: ['', [Validators.required]],
             emailGroup: this.fb.group({
-                email: ['', [ Validators.required, Validators.email ] ],
-                email2: [ '', [ Validators.required, Validators.email ] ],
-            }),
-            password: ['', [ Validators.required ]],
-            avatar: ['', [ Validators.required ] ],
-            lat: [ '' ],
-            lng: [ ''],
-            address: ['']
+                email: ['', [Validators.required, Validators.email]],
+                email2: ['', [Validators.required, Validators.email]],
+            }, { validator: this.emailMatcher }),
+            password: ['', [Validators.required]],
+            avatar: ['', [Validators.required]],
         });
         console.log(this.registerForm.get('avatar'));
     }
 
     submit() {
-        console.log(this.registerForm);
-    }
+        if (this.registerForm.valid) {
+            const user = <User>{
+                avatar: this.registerForm.get('avatar').value,
+                name: this.registerForm.get('name').value,
+                email: this.registerForm.get('emailGroup').get('email').value,
+                password: this.registerForm.get('password').value,
+            };
 
-    // comparisonValidator(): ValidatorFn {
-    //     return (control: AbstractControl): ValidationErrors => {
-    //        if (control.value === '' || this.) {
-    //           return {notEquivalent: true};
-    //        }
-    //        return null;
-    //     };
-    // }
+            this.service.register(user).subscribe(
+                data => {
+                    this.router.navigate(['/auth/login']);
+                },
+                err => console.log(err)
+            );
+        }
+    }
 }

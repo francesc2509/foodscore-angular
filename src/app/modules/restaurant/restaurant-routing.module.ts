@@ -8,6 +8,7 @@ import {
 } from './components';
 
 import { RestaurantResolver } from './resolvers';
+import { Show } from './constants';
 
 const routes = <Routes>[
     {
@@ -30,7 +31,18 @@ const routes = <Routes>[
     },
     {
         path: '',
-        component: RestaurantPageComponent
+        component: RestaurantPageComponent,
+        data: { show: Show.ALL }
+    },
+    {
+        path: 'mine',
+        component: RestaurantPageComponent,
+        data: { show: Show.MINE }
+    },
+    {
+        path: 'user/:id',
+        component: RestaurantPageComponent,
+        data: { show: Show.USER }
     }
 ];
 

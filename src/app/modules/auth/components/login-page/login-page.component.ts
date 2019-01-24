@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, NgZone } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
@@ -18,7 +18,8 @@ export class LoginPageComponent implements OnInit {
     constructor(
         private authService: AuthService,
         private router: Router,
-        private fb: FormBuilder
+        private fb: FormBuilder,
+        private ngZone: NgZone
     ) {}
 
     ngOnInit() {
@@ -45,5 +46,17 @@ export class LoginPageComponent implements OnInit {
                 }
             );
         }
+    }
+
+    loggedGoogle(user: gapi.auth2.GoogleUser) {
+        // Send this token to your server for register / login
+        console.log(user.getAuthResponse().id_token);
+        this.ngZone.run(() => {
+          const name = user.getBasicProfile().getName();
+          const email = user.getBasicProfile().getEmail();
+          const avatar = user.getBasicProfile().getImageUrl();
+
+          console.log(name + ' ' + email + ' ' + avatar);
+        });
     }
 }
