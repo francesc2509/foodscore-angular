@@ -9,6 +9,7 @@ import {
 
 import { RestaurantResolver } from './resolvers';
 import { Show } from './constants';
+import { EditRestaurantDeactivateGuard } from './guards';
 
 const routes = <Routes>[
     {
@@ -24,6 +25,7 @@ const routes = <Routes>[
     },
     {
         path: 'edit/:id',
+        canDeactivate: [ EditRestaurantDeactivateGuard ],
         component: RestaurantFormComponent,
         resolve: {
             restaurant: RestaurantResolver

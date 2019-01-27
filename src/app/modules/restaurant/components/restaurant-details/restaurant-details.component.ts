@@ -58,6 +58,7 @@ export class RestaurantDetailsComponent implements OnInit {
 
             this.service.addComment(newComment, this.restaurant.id).subscribe(
                 comment => {
+                    debugger;
                     if (this.comments) {
                         this.comments = this.comments.concat([ comment ]);
                     } else {

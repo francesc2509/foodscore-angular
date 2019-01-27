@@ -35,9 +35,24 @@ export class AuthService {
                     `/auth/login`,
                     { email, password, lat: latitude, lng: longitude }
                 ).pipe(map(res => {
-                    localStorage.setItem(TOKEN_KEY, `${res.accessToken}`);
-                    this.logged = true;
-                    this.loginChange$.emit(this.logged);
+                    this.storeToken(res.accessToken);
+                }));
+            })
+        );
+    }
+
+    googleLogin(token: string) {
+        // token = `Bearer ${token}`;
+
+        return this.geolocation.getLocation().pipe(
+            switchMap(coords => {
+                const { latitude, longitude } = coords;
+
+                return this.http.post<any>(
+                    `/auth/google`,
+                    { token, lat: latitude, lng: longitude }
+                ).pipe(map(res => {
+                    this.storeToken(res.accessToken);
                 }));
             })
         );
@@ -83,5 +98,11 @@ export class AuthService {
                 }));
             })
         );
+    }
+
+    private storeToken(token) {
+        localStorage.setItem(TOKEN_KEY, `${token}`);
+        this.logged = true;
+        this.loginChange$.emit(this.logged);
     }
 }

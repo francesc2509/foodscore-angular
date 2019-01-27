@@ -18,6 +18,7 @@ import {
 } from '@angular/material';
 
 import { SharedModule } from '../shared/shared.module';
+import { ModalConfirmComponent } from '../shared/components';
 
 import { RestaurantRoutingModule } from './restaurant-routing.module';
 
@@ -57,6 +58,9 @@ import { RestaurantFilterPipe } from './pipes';
         RestaurantPageComponent,
         RestaurantDetailsComponent,
         RestaurantFilterPipe
+    ],
+    entryComponents: [
+        ModalConfirmComponent
     ]
 })
 export class RestaurantModule {}

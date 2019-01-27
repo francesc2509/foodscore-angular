@@ -37,12 +37,9 @@ export class LoginPageComponent implements OnInit {
             const password = this.loginForm.get('password').value;
 
             this.authService.login(email, password).subscribe(
-                () => {
-                    this.router.navigate(['/restaurants']);
-                },
+                () => {},
                 err => {
-                    this.error = err.error;
-                    console.log(this.error);
+                    this.createError(err.error);
                 }
             );
         }
@@ -52,11 +49,19 @@ export class LoginPageComponent implements OnInit {
         // Send this token to your server for register / login
         console.log(user.getAuthResponse().id_token);
         this.ngZone.run(() => {
-          const name = user.getBasicProfile().getName();
-          const email = user.getBasicProfile().getEmail();
-          const avatar = user.getBasicProfile().getImageUrl();
-
-          console.log(name + ' ' + email + ' ' + avatar);
+            //   const name = user.getBasicProfile().getName();
+            //   const email = user.getBasicProfile().getEmail();
+            //   const avatar = user.getBasicProfile().getImageUrl();
+            this.authService.googleLogin(user.getAuthResponse().id_token).subscribe(
+                () => {},
+                err => {
+                    this.createError(err.error);
+                }
+            );
         });
+    }
+
+    createError(error) {
+        this.error = error;
     }
 }

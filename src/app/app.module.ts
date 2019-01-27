@@ -11,6 +11,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { GoogleLoginModule } from './modules/google-login/google-login.module';
+import { FacebookLoginModule } from './modules/facebook-login/facebook-login.module';
 
 @NgModule({
     declarations: [
@@ -24,6 +25,7 @@ import { GoogleLoginModule } from './modules/google-login/google-login.module';
         MenuModule,
         BrowserAnimationsModule,
         GoogleLoginModule.withConfig('3493852405-i42aed10i54blfjpt7l42i5rtilkpl0j.apps.googleusercontent.com'),
+        FacebookLoginModule.forRoot({app_id: '264506843964721', version: 'v3.2'})
     ],
     providers: [
         {

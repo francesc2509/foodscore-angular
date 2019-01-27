@@ -23,17 +23,20 @@
                 </mat-form-field>
 
                 <mat-label *ngIf="error" color="warn">
-                    {{error.error}}
+                    {{error.error || error}}
                 </mat-label>
             </mat-card-content>
             <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="1em">
                 <div fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="0.5em">
                     <button mat-raised-button fsGoogleLogin type="button" class="btn-google"
-                        (loginOk)="loggedGoogle($event)" (loginError)="errorGoogle($event)">
+                        (loginOk)="loggedGoogle($event)" (loginError)="createError($event)" >
                         <i class="fab fa-google"></i>
                         Google
                     </button>
-                    <button mat-raised-button class="btn-fb" type="submit">
+                    <button mat-raised-button fsFbLogin class="btn-fb" type="button"
+                        (loginOk)="loggedFacebook($event)"
+                        (loginError)="showError($event)"
+                        [scope]="['email', 'public_profile']">
                         <i class="fab fa-facebook"></i>
                         Facebook
                     </button>

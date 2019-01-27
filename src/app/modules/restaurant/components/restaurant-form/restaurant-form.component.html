@@ -5,13 +5,12 @@
     role="form"
     [formGroup]="restaurantForm"
     (ngSubmit)="submit($event)">
-
     <mat-card fxFlex="50%">
             <mat-card-title-group>
-                <mat-card-title>New restaurant</mat-card-title>
-                <!-- <img *ngIf="image" mat-card-lg-image
+                <mat-card-title>{{title}}</mat-card-title>
+                <img *ngIf="image" mat-card-lg-image
                     [src]="image"
-                    alt=""> -->
+                    alt="">
             </mat-card-title-group>
             <mat-card-content fxLayout="column">
                 <mat-form-field>
@@ -43,7 +42,6 @@
                 
                 <div [formGroup]="restaurantForm.get('days')" fsOneChecked>
                     <div fxLayout="row">
-                        
                         <div *ngFor="let day of days; let i = index" fxFlex="20%">
                             <mat-checkbox formControlName="days{{i}}">
                                 {{day}}
@@ -69,12 +67,12 @@
             
             <fs-file-input [formControl]="restaurantForm.get('image')"
                 name="image"
-                (change)="image = $event"></fs-file-input>
-            <!-- <fs-mapbox formControlName="location"></fs-mapbox> -->
+                (change)="changeImage($event)"></fs-file-input>
+                
             <fs-mapbox [formGroup]="restaurantForm.get('location')"></fs-mapbox>
             <div fxLayout="row" fxLayoutAlign="center center">
                 <button type="submit" mat-raised-button color="accent" [disabled]="!this.image || restaurantForm.invalid">
-                    Create
+                    {{submitBtnTxt}}
                 </button>
             </div>
     </mat-card>

@@ -20,6 +20,8 @@ export class MenuComponent implements OnInit {
 
                 if (!this.logged) {
                     this.router.navigate(['/auth']);
+                } else {
+                    this.router.navigate(['/restaurants']);
                 }
             }
         );

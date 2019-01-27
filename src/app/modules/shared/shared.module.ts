@@ -1,12 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { MatButtonModule, MatIconModule } from '@angular/material';
+import { MatButtonModule, MatIconModule, MatDialogModule } from '@angular/material';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { NgxMapboxGLModule } from 'ngx-mapbox-gl';
 
-import { StarRatingComponent, FileInputComponent, MapboxComponent } from './components';
+import { StarRatingComponent, FileInputComponent, MapboxComponent, ModalConfirmComponent } from './components';
 import { OneCheckedDirective, GoBackDirective } from './directives';
 
 import { environment } from '../../../environments/environment';
@@ -16,6 +16,7 @@ import { environment } from '../../../environments/environment';
         CommonModule,
         MatButtonModule,
         MatIconModule,
+        MatDialogModule,
         ReactiveFormsModule,
         NgxMapboxGLModule.withConfig({
             accessToken: environment['mapbox-key']
@@ -27,7 +28,8 @@ import { environment } from '../../../environments/environment';
         GoBackDirective,
         StarRatingComponent,
         FileInputComponent,
-        MapboxComponent
+        MapboxComponent,
+        ModalConfirmComponent
     ],
     exports: [
         OneCheckedDirective,

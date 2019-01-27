@@ -17,6 +17,7 @@ import { AuthRoutingModule } from './auth-routing.module';
 
 import { LoginPageComponent, RegisterPageComponent } from './components';
 import { GoogleLoginModule } from '../google-login/google-login.module';
+import { FacebookLoginModule } from '../facebook-login/facebook-login.module';
 
 @NgModule({
     imports: [
@@ -32,7 +33,8 @@ import { GoogleLoginModule } from '../google-login/google-login.module';
         MatCardModule,
         MatDividerModule,
         FlexLayoutModule,
-        GoogleLoginModule.withConfig('AIzaSyBOsD1guCZbuq-owCb6iCzjqLJSi6rLNiM.apps.googleusercontent.com'),
+        GoogleLoginModule.withConfig('3493852405-i42aed10i54blfjpt7l42i5rtilkpl0j.apps.googleusercontent.com'),
+        FacebookLoginModule.forRoot({app_id: '264506843964721', version: 'v3.2'})
     ],
     declarations: [
         LoginPageComponent,

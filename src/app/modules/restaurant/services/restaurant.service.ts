@@ -53,7 +53,7 @@ export class RestaurantService {
             map((res) => {
                 const restaurant = res.restaurant;
                 restaurant.daysOpen = restaurant.daysOpen.map(day => Number(day));
-                restaurant.image = `${environment.baseUrl}/${restaurant.image}`;
+                restaurant.image = `${environment.baseUrl}/${restaurant.image.replace(/\\/gi, '/')}`;
                 return restaurant;
             })
         );
@@ -82,7 +82,9 @@ export class RestaurantService {
             }
 
         ).pipe(map((res) => {
-            return res.comment;
+            const newComment = res.comment;
+            newComment.user.avatar = `${environment.baseUrl}/${newComment.user.avatar}`;
+            return newComment;
         }));
     }
 
@@ -94,7 +96,7 @@ export class RestaurantService {
             daysOpen: rest.daysOpen.map(day => `${day}`),
             phone: rest.phone,
             image: rest.image,
-            cuisine: rest.cuisine.split(','),
+            cuisine: rest.cuisine,
             address: rest.address,
             lat: rest.lat,
             lng: rest.lng,
@@ -107,6 +109,28 @@ export class RestaurantService {
             {
                 headers: h
             }
+
+        ).pipe(map((res) => {
+            return res.restaurant;
+        }));
+    }
+
+    editRestaurant(rest: Restaurant) {
+        const payload = {
+            name: rest.name,
+            description: rest.description,
+            daysOpen: rest.daysOpen.map(day => `${day}`),
+            phone: rest.phone,
+            image: rest.image,
+            cuisine: rest.cuisine,
+            address: rest.address,
+            lat: Number(rest.lat),
+            lng: Number(rest.lng),
+        };
+
+        return this.http.put<GetRestaurantResponse>(
+            `/restaurants/${rest.id}`,
+            payload
 
         ).pipe(map((res) => {
             return res.restaurant;
