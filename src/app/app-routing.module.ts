@@ -24,9 +24,16 @@ const routes: Routes = [
         ]
     },
     {
-        path: '**',
-        redirectTo: 'auth'
-    }
+        path: 'profile',
+        loadChildren: './modules/profile/profile.module#ProfileModule',
+        canActivate: [
+            LoginActivateGuard
+        ]
+    },
+    // {
+    //     path: '**',
+    //     redirectTo: 'auth'
+    // }
 ];
 
 @NgModule({

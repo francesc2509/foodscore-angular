@@ -5,7 +5,7 @@ import {
 import { HttpClient } from '@angular/common/http';
 
 import { Observable, of } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { map, switchMap, catchError } from 'rxjs/operators';
 
 import { environment } from '../../../../environments/environment';
 import { LoginResponse } from '../models';
@@ -26,37 +26,42 @@ export class AuthService {
         private geolocation: GeolocationService
     ) {}
 
-    login(email: string, password: string): Observable<void> {
-        return this.geolocation.getLocation().pipe(
-            switchMap(coords => {
-                const { latitude, longitude } = coords;
-
-                return this.http.post<LoginResponse>(
-                    `/auth/login`,
-                    { email, password, lat: latitude, lng: longitude }
-                ).pipe(map(res => {
-                    this.storeToken(res.accessToken);
-                }));
-            })
-        );
+    jwt(email: string, password: string): Observable<void> {
+        return this.login(`/auth/login`, { email, password });
     }
 
     googleLogin(token: string) {
-        // token = `Bearer ${token}`;
+        return this.login(`/auth/google`, { token });
+    }
 
-        return this.geolocation.getLocation().pipe(
-            switchMap(coords => {
-                const { latitude, longitude } = coords;
+    facebookLogin(token: string) {
+        return this.login(`/auth/facebook`, { token });
+    }
 
-                return this.http.post<any>(
-                    `/auth/google`,
-                    { token, lat: latitude, lng: longitude }
-                ).pipe(map(res => {
-                    this.storeToken(res.accessToken);
-                }));
+    private login(url: string, data: any) {
+        return this.geolocateAndExec<LoginResponse>(url, data)
+            .pipe(map(res => {
+                this.storeToken(res.accessToken);
             })
         );
     }
+
+    // private login(url: string, data: any) {
+    //     return this.geolocation.getLocation().pipe(
+    //         switchMap(coords => {
+    //             const { latitude, longitude } = coords;
+    //             data.lat = latitude;
+    //             data.lng = longitude;
+
+    //             return this.http.post<LoginResponse>(
+    //                 url,
+    //                 data
+    //             ).pipe(map(res => {
+    //                 this.storeToken(res.accessToken);
+    //             }));
+    //         })
+    //     );
+    // }
 
     logout() {
         localStorage.removeItem(TOKEN_KEY);
@@ -72,27 +77,38 @@ export class AuthService {
 
         if (localStorage.getItem(TOKEN_KEY)) {
             return this.http.get<{ok: boolean}>(`/auth/validate`)
-                .pipe(map(res => {
-                    if (!res.ok) {
-                        return false;
-                    }
-                    this.loginChange$.emit(true);
-                    this.logged = true;
-                    return this.logged;
-                }));
+                .pipe(
+                    map(res => {
+                        console.log(res);
+
+                        if (!res.ok) {
+                            return false;
+                        }
+                        this.loginChange$.emit(true);
+                        this.logged = true;
+                        return this.logged;
+                    }),
+                    catchError(err => {
+                        throw err;
+                    })
+                );
         }
         return of(false);
     }
 
     register(user: User): Observable<User> {
+        return this.geolocateAndExec<User>(`/auth/register`, user);
+    }
+
+    private geolocateAndExec<T>(url: string, data: any): Observable<T> {
         return this.geolocation.getLocation().pipe(
             switchMap(coords => {
-                user.lat = coords.latitude;
-                user.lng = coords.longitude;
+                data.lat = coords.latitude;
+                data.lng = coords.longitude;
 
-                return this.http.post<User>(
-                    `/auth/register`,
-                    user
+                return this.http.post<T>(
+                    url,
+                    data
                 ).pipe(map(res => {
                     return res;
                 }));

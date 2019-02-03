@@ -1,52 +1,43 @@
-<form fxLayout="row"
-    fxLayoutAlign="center center"
-    class="row-height"
-    method="POST"
-    role="form"
-    novalidate="novalidate"
-    [formGroup]="loginForm"
-    (ngSubmit)="login($event)">
+<form fxLayout="row" fxLayoutAlign="center center" class="row-height" method="POST" role="form" novalidate="novalidate"
+    [formGroup]="loginForm" (ngSubmit)="login($event)">
 
-    <mat-card fxFlex="30%">
-            <mat-card-title>Login</mat-card-title>
-            <mat-card-content fxLayout="column" fxLayout="column">
-                <mat-form-field class="example-full-width">
-                    <input type="email" matInput placeholder="E-mail"
-                        [formControl]="loginForm.get('email')"
-                        name="email">
-                </mat-form-field>
-                
-                <mat-form-field class="example-full-width">
-                    <input type="password" matInput placeholder="Password"
-                        [formControl]="loginForm.get('password')"
-                        name="password">
-                </mat-form-field>
+    <mat-card fxFlex="20%">
+        <mat-card-title>Login</mat-card-title>
+        <mat-card-content fxLayout="column" fxLayout="column">
+            <mat-form-field class="example-full-width">
+                <input type="email" matInput placeholder="E-mail" [formControl]="loginForm.get('email')" name="email">
+            </mat-form-field>
 
-                <mat-label *ngIf="error" color="warn">
-                    {{error.error || error}}
-                </mat-label>
-            </mat-card-content>
-            <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="1em">
-                <div fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="0.5em">
-                    <button mat-raised-button fsGoogleLogin type="button" class="btn-google"
-                        (loginOk)="loggedGoogle($event)" (loginError)="createError($event)" >
-                        <i class="fab fa-google"></i>
-                        Google
-                    </button>
-                    <button mat-raised-button fsFbLogin class="btn-fb" type="button"
-                        (loginOk)="loggedFacebook($event)"
-                        (loginError)="showError($event)"
-                        [scope]="['email', 'public_profile']">
-                        <i class="fab fa-facebook"></i>
-                        Facebook
-                    </button>
-                </div>
-                <div fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="0.5em">
-                    <button type="submit" mat-raised-button color="primary">
-                        Login
-                    </button>
-                    <a mat-raised-button routerLink="/auth/register" color="accent">Register</a>
-                </div>
-            </div>
+            <mat-form-field class="example-full-width">
+                <input type="password" matInput placeholder="Password" [formControl]="loginForm.get('password')" name="password">
+            </mat-form-field>
+
+            <mat-label *ngIf="error" color="warn">
+                {{error.error || error}}
+            </mat-label>
+        </mat-card-content>
+        <div fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="1em">
+            <button type="submit" mat-raised-button color="primary">
+                Login
+            </button>
+            <button mat-raised-button fsGoogleLogin type="button" class="btn-google"
+                (loginOk)="loggedGoogle($event)" (loginError)="createError($event)">
+                <i class="fab fa-google"></i>
+                Google
+            </button>
+            <button mat-raised-button fsFbLogin class="btn-fb" type="button"
+                (loginOk)="loggedFacebook($event)"
+                (loginError)="showError($event)"
+                [scope]="['email', 'public_profile']">
+                <i class="fab fa-facebook"></i>
+                Facebook
+            </button>
+        </div>
+        <div class="register-wrapper">
+            <a routerLink="/auth/register" color="accent">
+                Create an account
+            </a>
+        </div>
+        
     </mat-card>
 </form>

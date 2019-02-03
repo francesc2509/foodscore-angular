@@ -51,6 +51,7 @@ export class RestaurantService {
             `/restaurants/${id}`
         ).pipe(
             map((res) => {
+                console.log(res);
                 const restaurant = res.restaurant;
                 restaurant.daysOpen = restaurant.daysOpen.map(day => Number(day));
                 restaurant.image = `${environment.baseUrl}/${restaurant.image.replace(/\\/gi, '/')}`;

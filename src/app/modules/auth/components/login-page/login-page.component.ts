@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { AuthService } from '../../services';
 import { User } from '../../../../models';
+import { Observable } from 'rxjs';
 
 @Component({
     selector: 'fs-login-page',
@@ -20,12 +21,12 @@ export class LoginPageComponent implements OnInit {
         private router: Router,
         private fb: FormBuilder,
         private ngZone: NgZone
-    ) {}
+    ) { }
 
     ngOnInit() {
         this.loginForm = this.fb.group({
-            email: ['', [ Validators.required, Validators.email ]],
-            password: ['', [ Validators.required ]]
+            email: ['', [Validators.required, Validators.email]],
+            password: ['', [Validators.required]]
         });
     }
 
@@ -36,12 +37,7 @@ export class LoginPageComponent implements OnInit {
             const email = this.loginForm.get('email').value;
             const password = this.loginForm.get('password').value;
 
-            this.authService.login(email, password).subscribe(
-                () => {},
-                err => {
-                    this.createError(err.error);
-                }
-            );
+            this.subscribe(this.authService.jwt(email, password));
         }
     }
 
@@ -52,16 +48,24 @@ export class LoginPageComponent implements OnInit {
             //   const name = user.getBasicProfile().getName();
             //   const email = user.getBasicProfile().getEmail();
             //   const avatar = user.getBasicProfile().getImageUrl();
-            this.authService.googleLogin(user.getAuthResponse().id_token).subscribe(
-                () => {},
-                err => {
-                    this.createError(err.error);
-                }
-            );
+            this.subscribe(this.authService.googleLogin(user.getAuthResponse().id_token));
         });
     }
 
-    createError(error) {
-        this.error = error;
+    loggedFacebook(res: FB.LoginStatusResponse) {
+        this.ngZone.run(() => {
+            this.subscribe(this.authService.facebookLogin(res.authResponse.accessToken));
+        });
+    }
+
+    private subscribe(o$: Observable<void>) {
+        o$.subscribe(
+            () => {
+                this.router.navigate(['/restaurants']);
+            },
+            err => {
+                this.error = err.error;
+            }
+        );
     }
 }

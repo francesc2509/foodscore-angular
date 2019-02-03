@@ -1,6 +1,8 @@
-<fs-menu></fs-menu>
+<ng-container>
+    <fs-menu [logged]="logged" (logout)="logout()"></fs-menu>
 
 
-<div class="container">
-   <router-outlet></router-outlet>
-</div>
+    <div class="container">
+        <router-outlet></router-outlet>
+    </div>
+</ng-container>

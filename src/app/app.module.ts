@@ -25,7 +25,7 @@ import { FacebookLoginModule } from './modules/facebook-login/facebook-login.mod
         MenuModule,
         BrowserAnimationsModule,
         GoogleLoginModule.withConfig('3493852405-i42aed10i54blfjpt7l42i5rtilkpl0j.apps.googleusercontent.com'),
-        FacebookLoginModule.forRoot({app_id: '264506843964721', version: 'v3.2'})
+        FacebookLoginModule.forRoot({app_id: '2908014832542778', version: 'v3.2'})
     ],
     providers: [
         {

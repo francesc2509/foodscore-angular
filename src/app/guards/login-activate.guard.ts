@@ -1,8 +1,8 @@
 import { CanActivate, Router } from '@angular/router';
 import { Injectable } from '@angular/core';
 
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { map, catchError } from 'rxjs/operators';
 
 import { AuthService } from '../modules/auth/services';
 
@@ -20,10 +20,15 @@ export class LoginActivateGuard implements CanActivate {
         return this.authService.isLogged().pipe(
             map(res => {
                 if (!res) {
-                    this.router.navigate(['/login']);
+                    this.router.navigate(['/auth/login']);
                     return false;
                 }
                 return true;
+            }),
+            catchError(err => {
+                this.authService.logout();
+                this.router.navigate(['/auth/login']);
+                return of(false);
             })
         );
     }

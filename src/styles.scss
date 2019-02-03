@@ -31,6 +31,10 @@ $angular-foodscore-theme: mat-light-theme($angular-foodscore-primary, $angular-f
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; overflow: hidden; }
 
+a {
+    color: rgb(38, 71, 150)
+}
+
 .row-height {
     height: 100%;
 }
@@ -60,6 +64,14 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; overflow: h
     display: none;
 }
 
+.success {
+    color: rgb(75,181,67);
+}
+
+.error {
+    color: #f44336;
+}
+
 label {
     cursor: inherit;
 }
@@ -69,15 +81,8 @@ mgl-map {
     height: 230px;
     width: 100%;
 }
-.btn-google {
-
-}
 
 .btn-fb {
     background-color: #4267b2 !important;
     color: #ffffff !important;
-}
-
-.btn-fb > img {
-    background: #ffffff;
 }

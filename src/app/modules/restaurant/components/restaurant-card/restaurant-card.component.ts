@@ -1,9 +1,11 @@
 import { OnInit, Component, Input, Output, EventEmitter } from '@angular/core';
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
+import { MatDialog } from '@angular/material';
 
 import { Restaurant } from '../../models';
 import { days } from '../../../../constants';
 import { RestaurantService } from '../../services';
+import { ModalConfirmComponent } from 'src/app/modules/shared/components';
 
 
 @Component({
@@ -25,7 +27,7 @@ export class RestaurantCardComponent implements OnInit {
 
     constructor(
         private service: RestaurantService,
-        private sanitizer: DomSanitizer
+        private dialog: MatDialog
     ) {}
 
     ngOnInit() {
@@ -35,9 +37,26 @@ export class RestaurantCardComponent implements OnInit {
     }
 
     deleteRestaurant() {
-        this.service.deleteRestaurant(this.restaurant.id).subscribe(
-            () => this.delete.emit(this.restaurant),
-            err => alert(err)
+        const modalRef = this.dialog.open(ModalConfirmComponent, {
+            data: {
+                title: 'This action cannot be reverted',
+                body: `Do you want to remove the restaurant called ${this.restaurant.name}?`
+            },
+            disableClose: true
+        });
+
+        modalRef.afterClosed().subscribe(
+            result => {
+                if (result) {
+                    this.service.deleteRestaurant(this.restaurant.id).subscribe(
+                        () => this.delete.emit(this.restaurant),
+                        err => alert(err)
+                    );
+                }
+            },
+            err => {
+                console.log(err);
+            }
         );
     }
 

@@ -1,0 +1,99 @@
+<div *ngIf="user" class="row-height" fxLayout="row" fxLayoutAlign="center center">
+    <div fxFlex="50%">
+        <mat-card>
+            <mat-card-title-group>
+                <mat-card-title>Edit profile</mat-card-title>
+                <img mat-card-image [src]="user.avatar" alt="Photo of a Shiba Inu" style="width: 200px; height: 200px; margin-right: 0.25em">
+            </mat-card-title-group>
+            <mat-card-content>
+                <div fxLayout="column" fxLayoutGap="2em">
+
+                    <form [formGroup]="infoForm" fxLayout="column"
+                        (ngSubmit)="editInfo($event)">
+                        <mat-form-field>
+                            <input matInput placeholder="Name" formControlName="name">
+                            <mat-error *ngIf="infoForm.get('name').hasError('required')">
+                                Name is <strong>required</strong>
+                            </mat-error>
+                        </mat-form-field>
+
+                        <mat-form-field>
+                            <input matInput placeholder="E-mail" formControlName="email">
+                            <mat-error *ngIf="infoForm.get('email').hasError('required')">
+                                E-mail is <strong>required</strong>
+                            </mat-error>
+                        </mat-form-field>
+                        <mat-label *ngIf="messages.info">
+                            <span [ngClass]="{'success': messages.info.ok, 'error': !messages.info.ok}">
+                                {{messages.info.text}}
+                            </span>
+                        </mat-label>
+                        <div fxLayout="row" fxLayoutGap="0.25em" fxLayoutAlign="end center">
+                            <button mat-raised-button color="primary"
+                                type="submit"
+                                [disabled]="infoForm.pristine || infoForm.invalid">
+                                Edit info
+                            </button>
+                        </div>
+                    </form>
+
+                    <form [formGroup]="avatarForm" fxLayout="column" fxLayoutGap="0.5em"
+                        (ngSubmit)="editAvatar($event)">
+                        <div fxLayout="row" fxLayoutGap="0.25em" fxLayoutAlign="start center">
+                            <img *ngIf="avatarTmp" [src]="avatarTmp" style="width: 100px; height: 100px;" />
+                        </div>
+                        <div fxLayout="row" fxLayoutGap="0.25em">
+                            <div>
+                                <fs-file-input formControlName="avatar"
+                                    accept=".jpg, .png, .jpeg, .gif"></fs-file-input>
+                                <mat-label *ngIf="messages.avatar">
+                                    <span [ngClass]="{'success': messages.avatar.ok, 'error': !messages.avatar.ok}">
+                                        {{messages.avatar.text}}
+                                    </span>
+                                </mat-label>
+                            </div>
+                            
+                            <div class="fill-remaining-space"></div>
+                            <div fxLayout="row" fxLayoutGap="0.25em" fxLayoutAlign="end center">
+                                <button mat-raised-button color="primary"
+                                    type="submit"
+                                    [disabled]="avatarForm.pristine || avatarForm.invalid">
+                                    Edit avatar
+                                 </button>
+                            </div>
+                        </div>
+                    </form>
+
+                    <form [formGroup]="passwordForm" fxLayout="column" fxLayoutGap="0.5em"
+                        (ngSubmit)="editPassword($event)">
+                        <mat-form-field>
+                            <input matInput type="password" placeholder="New password" formControlName="password">
+                            <!-- <mat-error *ngIf="passwordForm.get('password').hasError('required')">
+                                Password is <strong>required</strong>
+                            </mat-error> -->
+                        </mat-form-field>
+
+                        <mat-form-field>
+                            <input matInput type="password" placeholder="Repeat password" formControlName="password2">
+                            <!-- <mat-error *ngIf="passwordForm.get('password2').hasError('required')">
+                                You must repeat the password
+                            </mat-error> -->
+                        </mat-form-field>
+                        <mat-label *ngIf="messages.password">
+                            <span [ngClass]="{'success': messages.password.ok, 'error': !messages.password.ok}">
+                                {{messages.password.text}}
+                            </span>
+                        </mat-label>
+                        <div fxLayout="row" fxLayoutGap="0.25em" fxLayoutAlign="end center">
+                            <button mat-raised-button color="primary"
+                                type="submit"
+                                [disabled]="passwordForm.pristine || passwordForm.invalid">
+                                Edit password
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </mat-card-content>
+        </mat-card>
+    </div>
+</div>

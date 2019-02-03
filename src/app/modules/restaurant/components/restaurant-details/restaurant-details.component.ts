@@ -43,7 +43,7 @@ export class RestaurantDetailsComponent implements OnInit {
             data => {
                 this.comments = data;
             },
-            err => alert(err)
+            err => console.log(err)
         );
     }
 
@@ -58,7 +58,13 @@ export class RestaurantDetailsComponent implements OnInit {
 
             this.service.addComment(newComment, this.restaurant.id).subscribe(
                 comment => {
-                    debugger;
+                    this.commentForm = this.fb.group({
+                        text: '',
+                        stars: 0,
+                    });
+
+                    this.restaurant.commented = true;
+
                     if (this.comments) {
                         this.comments = this.comments.concat([ comment ]);
                     } else {

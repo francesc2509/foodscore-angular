@@ -20,6 +20,7 @@ export class RestaurantResolver implements Resolve<Restaurant> {
     resolve(route: ActivatedRouteSnapshot): Observable<Restaurant> {
         return this.service.getRestaurant(route.params['id']).pipe(
             catchError(err => {
+                console.log(err);
                 this.router.navigate(['/restaurants']);
                 return of(null);
             })

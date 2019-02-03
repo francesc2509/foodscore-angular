@@ -23,7 +23,9 @@
             <mat-card-content>
                 <mat-list>
                     <mat-list-item *ngFor="let comment of comments">
-                        <img mat-list-icon [src]="comment.user.avatar" alt="">
+                        <img mat-list-icon [src]="comment.user.avatar"
+                            alt="User avatar"
+                            [routerLink]="['/profile', comment.user.id]" />
                         <h4 mat-line>{{comment.text}}</h4>
                         <p mat-line>{{comment.user.name}}</p>
                         <div mat-line>
@@ -51,7 +53,6 @@
                     <div fxLayout="row" fxLayoutAlign="left center">
                         <button mat-raised-button type="submit" color="accent">Send</button>
                     </div>
-                    
                 </form>
             </mat-card-content>
         </mat-card>

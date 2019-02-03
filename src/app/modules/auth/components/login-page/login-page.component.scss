@@ -1,13 +1,15 @@
-// .example-form {
-//     min-width: 150px;
-//     max-width: 500px;
-//     width: 100%;
-//   }
-  
-//   .example-full-width {
-//     width: 100%;
-//   }
-
 .mat-raised-button {
     min-width: 10em;
+}
+
+.register-wrapper {
+    margin: 2em;
+    text-align: center;
+}
+
+@media(min-width: 411px) {
+    .mat-raised-button {
+        max-width: 5em !important;
+        text-overflow: ellipsis;
+    }
 }

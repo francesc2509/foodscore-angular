@@ -11,4 +11,5 @@ export interface Restaurant {
     address: string;
     avatar?: string;
     mine?: boolean;
+    commented?: boolean;
 }

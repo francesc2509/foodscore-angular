@@ -15,6 +15,7 @@ export class FileInputComponent implements OnInit, ControlValueAccessor {
     image = '';
     // Allow the input to be disabled, and when it is make it somewhat transparent.
     @Input() disabled = false;
+    @Input() accept = '*.*';
 
     // Function to call when the rating changes.
     onChange = (image: string) => { };
