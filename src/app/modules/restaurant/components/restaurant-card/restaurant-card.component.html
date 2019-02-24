@@ -31,11 +31,11 @@
             <fs-rating-stars [ngModel]="restaurant.stars" [disabled]="true"></fs-rating-stars>
         </div>
     </mat-card-content>
-    <mat-card-actions>
+    <mat-card-actions *ngIf="restaurant.mine">
         <a mat-icon-button color="accent" [routerLink]="['/restaurants/edit', restaurant.id]">
             <mat-icon>edit</mat-icon>
         </a>
-        <button *ngIf="restaurant.mine"
+        <button
             mat-icon-button color="warn"
             (click)="deleteRestaurant()">
             <mat-icon>delete</mat-icon>
