@@ -15,33 +15,18 @@ export class ProfileDetailsComponent implements OnInit {
     user: User;
     position: { address?: string, coords: Coordinates };
 
-    constructor(private service: ProfileService, private route: ActivatedRoute) {}
+    constructor(
+        private service: ProfileService,
+        private route: ActivatedRoute
+    ) {}
 
     ngOnInit() {
-        let user$: Observable<User>;
-        let id = this.route.snapshot.params['id'];
+        this.user = this.route.snapshot.data.user;
 
-
-        if (!id) {
-            user$ = this.service.getMe();
-        } else {
-            id = Number(id);
-
-            if (isNaN(id) || id < 1) {
-                throw new Error('Invalid id');
+        this.position = {
+            coords: <Coordinates>{
+                latitude: this.user.lat, longitude: this.user.lng
             }
-            user$ = this.service.getById(id);
-        }
-
-        user$.subscribe(
-            user => {
-                this.user = user;
-                this.position = {
-                    coords: <Coordinates>{
-                        latitude: user.lat, longitude: user.lng
-                    }
-                };
-            }
-        );
+        };
     }
 }

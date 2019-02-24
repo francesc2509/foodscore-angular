@@ -64,10 +64,16 @@
                     </mat-error>
                 </mat-form-field>
             </mat-card-content>
-            
-            <fs-file-input [formControl]="restaurantForm.get('image')"
+            <div>
+                <fs-file-input [formControl]="restaurantForm.get('image')"
                 name="image"
                 (change)="changeImage($event)"></fs-file-input>
+                <div *ngIf="!restaurantForm.get('image').valid"
+                    style="color: red;">
+                    Image is required
+                </div>
+            </div>
+            
                 
             <fs-mapbox [formGroup]="restaurantForm.get('location')"></fs-mapbox>
             <div fxLayout="row" fxLayoutAlign="center center">

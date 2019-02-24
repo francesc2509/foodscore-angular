@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { User } from 'src/app/models';
 import { ProfileService } from '../../services';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
     selector: 'fs-profile-edit',
@@ -25,32 +26,30 @@ export class ProfileEditComponent implements OnInit {
 
     constructor(
         private service: ProfileService,
-        private fb: FormBuilder
-    ) {}
+        private fb: FormBuilder,
+        private route: ActivatedRoute
+    ) { }
 
     ngOnInit() {
-        this.service.getMe().subscribe(
-            user => {
-                this.user = user;
-                this.infoForm = this.fb.group({
-                    name: [ user.name, [Validators.required] ],
-                    email: [ user.email, [Validators.required, Validators.email]]
-                });
+        this.user = this.route.snapshot.data.user;
 
-                this.avatarForm = this.fb.group({
-                    avatar: [ user.name, [Validators.required] ]
-                });
+        this.infoForm = this.fb.group({
+            name: [this.user.name, [Validators.required]],
+            email: [this.user.email, [Validators.required, Validators.email]]
+        });
 
-                this.avatarForm.get('avatar').valueChanges.subscribe(
-                    data => this.avatarTmp = data
-                );
+        this.avatarForm = this.fb.group({
+            avatar: ['', [Validators.required]]
+        });
 
-                this.passwordForm = this.fb.group({
-                    password: [ '', [Validators.required] ],
-                    password2: [ '', [Validators.required] ]
-                });
-            }
+        this.avatarForm.get('avatar').valueChanges.subscribe(
+            data => this.avatarTmp = data
         );
+
+        this.passwordForm = this.fb.group({
+            password: ['', [Validators.required]],
+            password2: ['', [Validators.required]]
+        });
     }
 
     editInfo(event) {
@@ -60,7 +59,7 @@ export class ProfileEditComponent implements OnInit {
 
         this.service.updateInfo(user).subscribe(
             ok => {
-                this.messages.info = { ok: true, text: 'Info updated successfully'};
+                this.messages.info = { ok, text: 'Info updated successfully' };
             },
             err => {
                 this.messages.info = {
@@ -80,7 +79,8 @@ export class ProfileEditComponent implements OnInit {
         this.service.updateAvatar(user).subscribe(
             data => {
                 this.user.avatar = data.avatar;
-                this.messages.avatar = { ok: true, text: 'Avatar updated successfully'};
+				this.avatarForm.get('avatar').setValue('');
+                this.messages.avatar = { ok: true, text: 'Avatar updated successfully' };
             },
             err => {
                 this.messages.avatar = {
@@ -99,7 +99,7 @@ export class ProfileEditComponent implements OnInit {
 
         this.service.updatePassword(user).subscribe(
             ok => {
-                this.messages.password = { ok: true, text: 'Password updated successfully'};
+                this.messages.password = { ok: true, text: 'Password updated successfully' };
             },
             err => {
                 this.messages.password = {

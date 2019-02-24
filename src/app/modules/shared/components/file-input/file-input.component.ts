@@ -1,18 +1,26 @@
 import { Component, OnInit, Input, forwardRef, HostBinding } from '@angular/core';
-import { FormControl, ControlValueAccessor, NG_VALUE_ACCESSOR, FormGroup } from '@angular/forms';
+import { FormControl, ControlValueAccessor, NG_VALUE_ACCESSOR, FormGroup, NG_VALIDATORS, Validator } from '@angular/forms';
 
 @Component({
     selector: 'fs-file-input',
     templateUrl: './file-input.component.html',
     styleUrls: ['./file-input.component.scss'],
-    providers: [{
-        provide: NG_VALUE_ACCESSOR,
-        useExisting: forwardRef(() => FileInputComponent),
-        multi: true
-    }]
+    providers: [
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => FileInputComponent),
+            multi: true
+        },
+        {
+            provide: NG_VALIDATORS,
+            useExisting: forwardRef(() => FileInputComponent),
+            multi: true,
+        }
+    ]
 })
-export class FileInputComponent implements OnInit, ControlValueAccessor {
+export class FileInputComponent implements OnInit, ControlValueAccessor, Validator {
     image = '';
+    err = undefined;
     // Allow the input to be disabled, and when it is make it somewhat transparent.
     @Input() disabled = false;
     @Input() accept = '*.*';
@@ -27,7 +35,7 @@ export class FileInputComponent implements OnInit, ControlValueAccessor {
         return this.image;
     }
 
-    ngOnInit() {}
+    ngOnInit() { }
 
     changeImage(fileInput: HTMLInputElement): void {
         if (!fileInput.files || fileInput.files.length === 0) {
@@ -41,10 +49,21 @@ export class FileInputComponent implements OnInit, ControlValueAccessor {
         });
     }
 
+    public validate(c: FormControl) {
+        if (c.valid) {
+            return null;
+        }
+
+        this.err = {
+            valid: false,
+        };
+        return this.err;
+    }
+
     // Allows Angular to update the model (rating).
     // Update the model and changes needed for the view here.
     writeValue(value: string): void {
-        this.image =  value;
+        this.image = value;
         this.onChange(this.value);
     }
 

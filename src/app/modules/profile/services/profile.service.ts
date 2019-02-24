@@ -49,7 +49,6 @@ export class ProfileService {
     private getProfile(param: string):  Observable<User> {
         return this.http.get<GetProfileResponse>(`/users/${param}`).pipe(
             map((res) => {
-                debugger;
                 const user = res.user;
                 user.avatar = `${environment.baseUrl}/${user.avatar.replace(/\\/gi, '/')}`;
                 return user;

@@ -42,7 +42,8 @@ export class RegisterPageComponent implements OnInit {
         console.log(this.registerForm.get('avatar'));
     }
 
-    submit() {
+    submit(event) {
+		event.preventDefault();
         if (this.registerForm.valid) {
             const user = <User>{
                 avatar: this.registerForm.get('avatar').value,

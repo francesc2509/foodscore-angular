@@ -51,6 +51,7 @@ export class RestaurantService {
             `/restaurants/${id}`
         ).pipe(
             map((res) => {
+                debugger;
                 console.log(res);
                 const restaurant = res.restaurant;
                 restaurant.daysOpen = restaurant.daysOpen.map(day => Number(day));

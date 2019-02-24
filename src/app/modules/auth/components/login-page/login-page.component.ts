@@ -60,12 +60,12 @@ export class LoginPageComponent implements OnInit {
 
     private subscribe(o$: Observable<void>) {
         o$.subscribe(
-            () => {
-                this.router.navigate(['/restaurants']);
-            },
-            err => {
-                this.error = err.error;
-            }
+		  () => {
+			this.router.navigate(['/restaurants']);
+		  },
+		  err => {
+			this.error = err.error;
+		  }
         );
     }
 }

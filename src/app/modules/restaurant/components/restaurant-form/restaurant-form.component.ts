@@ -126,6 +126,7 @@ export class RestaurantFormComponent implements OnInit, CanComponentDeactivate {
         let coords: Coordinates;
         let address = '';
 
+        const imageControl =  new FormControl('');
         if (this.restaurant) {
             name = this.restaurant.name;
             description = this.restaurant.description;
@@ -142,6 +143,8 @@ export class RestaurantFormComponent implements OnInit, CanComponentDeactivate {
 
             this.submitBtnTxt = 'Edit';
             this.title = 'Edit restaurant';
+        } else {
+            imageControl.setValidators([Validators.required]);
         }
 
         this.restaurantForm = this.fb.group({
@@ -165,7 +168,7 @@ export class RestaurantFormComponent implements OnInit, CanComponentDeactivate {
                 ]
             ),
             days: this.buildDays(),
-            image: new FormControl(''),
+            image: imageControl,
             phone: new FormControl(
                 phone,
                 [

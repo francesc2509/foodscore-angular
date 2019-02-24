@@ -1,19 +1,29 @@
 import { RouterModule, Routes } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { ProfileDetailsComponent, ProfileEditComponent } from './components';
+import { ProfileResolver } from './resolvers';
 
 const routes = <Routes>[
     {
         path: 'edit',
-        component: ProfileEditComponent
+        component: ProfileEditComponent,
+        resolve: {
+            user: ProfileResolver
+        }
     },
     {
         path: ':id',
-        component: ProfileDetailsComponent
+        component: ProfileDetailsComponent,
+        resolve: {
+            user: ProfileResolver
+        }
     },
     {
         path: '',
-        component: ProfileDetailsComponent
+        component: ProfileDetailsComponent,
+        resolve: {
+            user: ProfileResolver
+        }
     }
 ];
 
